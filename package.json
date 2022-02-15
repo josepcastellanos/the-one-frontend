@@ -1,0 +1,28 @@
+{
+  "name": "The-One FE",
+  "version": "1.0.0",
+  "description": "The-One Frontend",
+  "main": "index.html",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "the-one",
+    "online",
+    "vue",
+    "nodeJS"
+  ],
+  "author": "mc",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "express": "^4.17.2",
+    "express-session": "^1.17.0"
+  }
+}
