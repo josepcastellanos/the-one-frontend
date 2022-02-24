@@ -5,11 +5,39 @@ const util = require('util');
 //exec using promises for asyncronous execution of the-one
 const exec = util.promisify(require('child_process').exec);
 
+const fs = require('fs');
+require('log-timestamp');
+
+const messageStats = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_MessageStatsReport.txt';
+const contactTimeReports = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_ContactTimesReport.txt';
+
+console.log(`Watching for file changes on ${messageStats}`);
+
+fs.watchFile(messageStats, (curr, prev) => {
+  console.log(`${messageStats} file Changed`);
+  console.log(
+  "The contents of the messageStats file are:",
+  fs.readFileSync(messageStats, "utf8")
+  );
+
+});
+
+fs.watchFile(contactTimeReports, (curr, prev) => {
+  console.log(`${contactTimeReports} file Changed`);
+  console.log(
+  "The contents of the contactTimeReports file are:",
+  fs.readFileSync(contactTimeReports, "utf8")
+  );
+
+});
+
+
 //async exxecution of the-one
 async function ExTheOne() {
   try {
       const { stdout, stderr } = await exec('./a.sh');
       console.log('stdout:', stdout);
+
   }catch (err) {
      console.error(err);
   };
@@ -37,6 +65,7 @@ app.get("/", (req,res)=> {
 app.get("/Start", (req,res)=> {
 
   ExTheOne();
+  console.log
 
 });
 
