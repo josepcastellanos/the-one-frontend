@@ -36,9 +36,13 @@ Script in charge of executng the-one sumulator
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
 - [ ]  Pass the reports to the front-end.
-- [ ]  Formating(later on)
 - [ ]  Parameters, such as TTL, bandwindth,…
 - [ ]  Traces as parameters
 - [ ]  Split/Total
             Split: input parameter is a time range
             Total: Trace
+            
+            
+## To do next
+
+- [ ]  Formating reports(later on)
