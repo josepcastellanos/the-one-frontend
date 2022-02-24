@@ -71,18 +71,7 @@ app.get("/Start", (req,res)=> {
       } else {
         fus=fs.readFileSync(messageStats, "utf8")
       }
-      /*
-      console.log(count)
-      if (count >= 2) {
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-        var json1 = JSON.stringify(fs.readFileSync(messageStats, "utf8"))
-        json3 = json1.concat(json2);
-        res.json(json3)
-      }
-      else {
-        const json1 = JSON.stringify(fs.readFileSync(messageStats, "utf8"))
-      }
-      */
+
     }
 
 
@@ -109,17 +98,6 @@ app.get("/Start", (req,res)=> {
           fus=fs.readFileSync(contactTimeReports, "utf8")
 
         }
-        /**
-        if (count >= 2) {
-          var json2 = JSON.stringify(fs.readFileSync(contactTimeReports, "utf8"))
-          json3 = json2.concat(json1);
-          res.json(json3)
-        }
-        else {
-          const json2 = JSON.stringify(fs.readFileSync(contactTimeReports, "utf8"))
-        }
-      }
-      */
     }
 
     });
