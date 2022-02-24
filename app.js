@@ -11,25 +11,7 @@ require('log-timestamp');
 const messageStats = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_MessageStatsReport.txt';
 const contactTimeReports = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_ContactTimesReport.txt';
 
-console.log(`Watching for file changes on ${messageStats}`);
 
-fs.watchFile(messageStats, (curr, prev) => {
-  console.log(`${messageStats} file Changed`);
-  console.log(
-  "The contents of the messageStats file are:",
-  fs.readFileSync(messageStats, "utf8")
-  );
-
-});
-
-fs.watchFile(contactTimeReports, (curr, prev) => {
-  console.log(`${contactTimeReports} file Changed`);
-  console.log(
-  "The contents of the contactTimeReports file are:",
-  fs.readFileSync(contactTimeReports, "utf8")
-  );
-
-});
 
 
 //async exxecution of the-one
@@ -64,8 +46,83 @@ app.get("/", (req,res)=> {
 //routing when the-one button is pressed
 app.get("/Start", (req,res)=> {
 
+  let count=0;
+  let fus;
+
   ExTheOne();
-  console.log
+  console.log(`Watching for file changes on ${messageStats}`);
+
+  fs.watchFile(messageStats, (curr, prev) => {
+    console.log(`${messageStats} file Changed`);
+    if (fs.readFileSync(messageStats, "utf8") === "") {
+      console.log('empty')
+      console.log(count)
+    } else {
+      console.log(
+        "The contents of the messageStats file are:",
+        fs.readFileSync(messageStats, "utf8")
+      );
+
+      count=count+1;
+
+      if (count >= 2) {
+        fus = fus + fs.readFileSync(messageStats, "utf8")
+        res.json(fus);
+      } else {
+        fus=fs.readFileSync(messageStats, "utf8")
+      }
+      /*
+      console.log(count)
+      if (count >= 2) {
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+        var json1 = JSON.stringify(fs.readFileSync(messageStats, "utf8"))
+        json3 = json1.concat(json2);
+        res.json(json3)
+      }
+      else {
+        const json1 = JSON.stringify(fs.readFileSync(messageStats, "utf8"))
+      }
+      */
+    }
+
+
+  });
+
+  fs.watchFile(contactTimeReports, (curr, prev) => {
+    console.log(`${contactTimeReports} file Changed`);
+
+    if (fs.readFileSync(contactTimeReports, "utf8") === "") {
+      console.log('empty')
+      console.log(count)
+    } else {
+      console.log(
+        "The contents of the contactTimeReports file are:",
+        fs.readFileSync(contactTimeReports, "utf8")
+        );
+
+        count=count+1;
+
+        if (count >= 2) {
+          fus = fus + fs.readFileSync(contactTimeReports, "utf8")
+          res.json(fus);
+        } else {
+          fus=fs.readFileSync(contactTimeReports, "utf8")
+
+        }
+        /**
+        if (count >= 2) {
+          var json2 = JSON.stringify(fs.readFileSync(contactTimeReports, "utf8"))
+          json3 = json2.concat(json1);
+          res.json(json3)
+        }
+        else {
+          const json2 = JSON.stringify(fs.readFileSync(contactTimeReports, "utf8"))
+        }
+      }
+      */
+    }
+
+    });
 
 });
 

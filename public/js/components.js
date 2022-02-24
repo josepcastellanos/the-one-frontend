@@ -3,29 +3,51 @@
 const rootComponent = {
   data() {
    return{
-     pressed: true,
+     pressed: false,
+     dataReport: "Charging",
 
    }
  },
  methods: {
    Start: function(){
+      this.pressed=true
+      console.log('pressed')
+
       fetch('/Start')
-      this.pressed=false
+      .then(response => response.json())
+      .then(aJson => {
+        console.log(aJson)
+        this.dataReport=aJson
+      })
+
     }, // end sendact
+    RepCharged: function (){
+
+    }
 
  },
 
 
- template: `<button v-if="pressed" v-on:click="Start">Click
+ template: `<button v-if="!pressed" v-on:click="Start">Click
  me</button>
- <h1 v-if="!pressed">CHARGING THE ONE </h1>
+ <reports v-if="pressed" v-bind:Rep="dataReport"> </reports>
  `
 
 
 } //end options
 
 
+const reports  = {
+  props: ['Rep'],
+
+  template: `
+  <small> {{Rep}} </small>
+   `
+
+};
+
+
 
 const app = Vue.createApp(rootComponent);
-
+app.component('reports', reports);
 const vm = app.mount("#app");
