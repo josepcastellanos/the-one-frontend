@@ -18,7 +18,7 @@ Also, install the necessaries node modules with npm install (express, path, util
 Located in 'the-one-frontend/js/components.js' .
 
 
-## Back End 
+## Back End
 
 Located in '/the-one-frontend/app.js' .
 
@@ -34,6 +34,8 @@ Script in charge of executng the-one sumulator
 
 24/02/2022 -> Raw reports shown in the web page, problems with listening two reports files, and sending one single response when reports are generated. watchFile                   function to listen the files, and join both reports in json format.
 
+28/02/2022 -> Form with the simulation parameters, they are stored in the data of the root vue.js component named OneConfig.
+
 
 ## To do 03/03/2022
 
@@ -45,12 +47,12 @@ Script in charge of executng the-one sumulator
 - [ ]       Parameters/Change the txt (replace config)
 - [ ]       Parameters/Check it works
 - [ ]       Parameters/Divide parameters per category
-         
-            
+
+
 ## To do next
 
 - [ ]  Add simulation number to the simulation config form
-- [ ]  Manage report system 
+- [ ]  Manage report system
 - [ ]  Traces as parameters
 - [ ]  Split/Total
             Split: input parameter is a time range
