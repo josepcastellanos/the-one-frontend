@@ -44,11 +44,12 @@ Script in charge of executng the-one sumulator
 - [ ]       Pass the config to the back
 - [ ]       Change the txt (replace config)
 - [ ]       Check it works
-
-            
+         
             
 ## To do next
 
+- [ ]  Add simulation number to the simulation config form
+- [ ]  Manage report system 
 - [ ]  Traces as parameters
 - [ ]  Split/Total
             Split: input parameter is a time range
