@@ -40,10 +40,11 @@ Script in charge of executng the-one sumulator
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
 - [x]  Pass the reports to the front-end.
 - [ ]  Parameters, such as TTL, bandwindth,…
-- [ ]       Create form simulation config
-- [ ]       Pass the config to the back
-- [ ]       Change the txt (replace config)
-- [ ]       Check it works
+- [ ]       Parameters/Create form simulation config
+- [ ]       Parameters/Pass the config to the back
+- [ ]       Parameters/Change the txt (replace config)
+- [ ]       Parameters/Check it works
+- [ ]       Parameters/Divide parameters per category
          
             
 ## To do next
