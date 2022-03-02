@@ -6,17 +6,17 @@ const rootComponent = {
      pressed: false,
      dataReport: "Charging",
      OneConfig: {
-       sTime: '43200',
-       tRange: '10',
-       tSpeed: '250',
-       gHosts: '40',
-       gBuffer: '5',
-       wTime: '0, 120',
-       gTTL: '300',
-       gSpeed: '0.5, 1.5',
-       wSize: '4500, 3400',
-       mInterval: '25, 35',
-       mSize: '500k, 1M',
+       sTime: 43200,
+       tRange: 10,
+       tSpeed: 250,
+       gHosts: 40,
+       gBuffer: 5,
+       wTime: "0, 120",
+       gTTL: 300,
+       gSpeed: "0.5, 1.5",
+       wSize: "4500, 3400",
+       mInterval: "25, 35",
+       mSize: "500k, 1M"
 
      }
 
@@ -25,9 +25,17 @@ const rootComponent = {
  methods: {
    Start: function(){
       this.pressed=true
-      console.log('pressed')
 
-      fetch('/Start')
+
+      const a=JSON.parse(JSON.stringify(this.OneConfig))
+      console.log(a)
+      fetch('/Start', {
+        method: "POST",
+        headers: {
+           "Content-Type": "application/json"
+         },
+        body: JSON.stringify(a),
+      })
       .then(response => response.json())
       .then(aJson => {
         console.log(aJson)

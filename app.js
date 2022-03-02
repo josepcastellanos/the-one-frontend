@@ -44,8 +44,10 @@ app.get("/", (req,res)=> {
 });
 
 //routing when the-one button is pressed
-app.get("/Start", (req,res)=> {
-
+app.post("/Start", (req,res)=> {
+  console.log('here')
+  console.log(req.body)
+  console.log('here')
   let count=0;
   let fus;
 
