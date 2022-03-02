@@ -67,5 +67,7 @@ Script in charge of executng the-one sumulator
 ## Possible improvements
 
 Optimize the report listening system
+
 Add config parameters to the simulation
+
 Optimize the change simulation config parameters
