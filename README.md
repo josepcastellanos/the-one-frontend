@@ -36,17 +36,21 @@ Script in charge of executng the-one sumulator
 
 28/02/2022 -> Form with the simulation parameters, they are stored in the data of the root vue.js component named OneConfig.
 
+01/02/2022 -> "Fetch Start" message to the back changed from get to post, so now we are able to send the simulation config to the back-end.
+
+02/02/2022 -> Now the simulation parameters are applied using the fs.writefile (removeLines) to clean the configuration parameters, and fs.appendFile to add the new simulation configuration to apply.
+
 
 ## To do 03/03/2022
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
 - [x]  Pass the reports to the front-end.
-- [ ]  Parameters, such as TTL, bandwindth,…
+- [x]  Parameters, such as TTL, bandwindth,…
 - [x]       Parameters/Create form simulation config
-- [ ]       Parameters/Pass the config to the back
-- [ ]       Parameters/Change the txt (replace config)
-- [ ]       Parameters/Check it works
-- [ ]       Parameters/Divide parameters per category
+- [x]       Parameters/Pass the config to the back
+- [x]       Parameters/Change the txt (replace config)
+- [x]       Parameters/Check it works
+
 
 
 ## To do next
@@ -58,3 +62,10 @@ Script in charge of executng the-one sumulator
             Split: input parameter is a time range
             Total: Trace
 - [ ]  Formating reports(later on)
+
+
+## Possible improvements
+
+Optimize the report listening system
+Add config parameters to the simulation
+Optimize the change simulation config parameters

@@ -10,7 +10,7 @@ const rootComponent = {
        tRange: 10,
        tSpeed: 250,
        gHosts: 40,
-       gBuffer: 5,
+       gBuffer: "5M",
        wTime: "0, 120",
        gTTL: 300,
        gSpeed: "0.5, 1.5",
@@ -86,9 +86,9 @@ const rootComponent = {
   <br>
   <label for="gBuffer">Group buffer size: </label>
    <select id="group" name="group values" form="form" v-model="OneConfig.gBuffer">
-    <option value="2"> 2 M </option>
-    <option value="5" selected> 5 M </option>
-    <option value="10"> 10 M </option>
+    <option value="2M"> 2 M </option>
+    <option value="5M" selected> 5 M </option>
+    <option value="10M"> 10 M </option>
    </select>
   <br>
   <label for="wTime">Group wait time: </label>
@@ -112,8 +112,8 @@ const rootComponent = {
   <br>
   <label for="wSize">World size: </label>
    <select id="world" name="world values" form="form" v-model="OneConfig.wSize">
-    <option value="2250, 1700"> 2250 x 1700 meters </option>
     <option value="4500, 3400" selected> 4500 x 3400 meters </option>
+    <option value="5625, 4250" selected> 5625 x 4250 meters </option>
     <option value="9000, 6800"> 9000 x 6800 meters </option>
    </select>
   <br>
