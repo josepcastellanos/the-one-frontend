@@ -98,7 +98,7 @@ const rootComponent = {
  me</button>
   <br>
   <label v-if="!pressed" for="nSim">Number simulations: </label>
-  <select id="nSim" name="simulation values" form="form" v-model="Nsim">
+  <select v-if="!pressed" id="nSim" name="simulation values" form="form" v-model="Nsim">
     <option value="1" selected> 1 simulation </option>
     <option value="2"> 2 simulation </option>
     <option value="3"> 3 simulation </option>
