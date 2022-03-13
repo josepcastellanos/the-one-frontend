@@ -36,9 +36,9 @@ Script in charge of executng the-one sumulator
 
 28/02/2022 -> Form with the simulation parameters, they are stored in the data of the root vue.js component named OneConfig.
 
-01/02/2022 -> "Fetch Start" message to the back changed from get to post, so now we are able to send the simulation config to the back-end.
+01/03/2022 -> "Fetch Start" message to the back changed from get to post, so now we are able to send the simulation config to the back-end.
 
-02/02/2022 -> Now the simulation parameters are applied using the fs.writefile (removeLines) to clean the configuration parameters, and fs.appendFile to add the new simulation configuration to apply.
+02/03/2022 -> Now the simulation parameters are applied using the fs.writefile (removeLines) to clean the configuration parameters, and fs.appendFile to add the new simulation configuration to apply.
 
 10/02/2022 -> More moddularity, the form is now a component, so now its possible to select a number of simulations (8 max), and all the parameters are stored dynamically in an array of OneConfig, at the moment is not possible to send this data structure to the back, the next step is to fix this.
 
