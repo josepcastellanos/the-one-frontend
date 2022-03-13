@@ -1,0 +1,38 @@
+label {
+  margin: 2px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+select
+{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 5px;
+  float: left;
+	width: 100px;
+	background: black;
+	color: white;
+	font-family: Sans-Serif;
+	font-size: 12px;
+	line-height: 30px;
+	height: 30px;
+	cursor: pointer;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+select select {
+   margin: 5px;
+  float: left;
+	width: 100px;
+	background: black;
+	color: white;
+	font-family: Sans-Serif;
+	font-size: 12px;
+	line-height: 30px;
+	height: 30px;
+	cursor: pointer;
+	border-radius: 5px;
+}

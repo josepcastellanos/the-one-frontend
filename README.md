@@ -40,8 +40,9 @@ Script in charge of executng the-one sumulator
 
 02/02/2022 -> Now the simulation parameters are applied using the fs.writefile (removeLines) to clean the configuration parameters, and fs.appendFile to add the new simulation configuration to apply.
 
+10/02/2022 -> More moddularity, the form is now a component, so now its possible to select a number of simulations (8 max), and all the parameters are stored dynamically in an array of OneConfig, at the moment is not possible to send this data structure to the back, the next step is to fix this.
 
-## To do 03/03/2022
+## Done Checklist
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
 - [x]  Pass the reports to the front-end.
@@ -53,9 +54,9 @@ Script in charge of executng the-one sumulator
 
 
 
-## To do next
+## To do
 
-- [ ]  Add simulation number to the simulation config form
+- [x]  Add simulation number to the simulation config form
 - [ ]  Manage report system
 - [ ]  Traces as parameters
 - [ ]  Split/Total
@@ -67,5 +68,9 @@ Script in charge of executng the-one sumulator
 ## Possible improvements
 
 Optimize the report listening system
+
 Add config parameters to the simulation
+
 Optimize the change simulation config parameters
+
+Change the form number with a v-for system
