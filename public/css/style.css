@@ -10,7 +10,6 @@ select
   -moz-appearance: none;
   appearance: none;
   margin: 5px;
-  float: left;
 	width: 100px;
 	background: black;
 	color: white;
