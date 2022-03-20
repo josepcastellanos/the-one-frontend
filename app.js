@@ -8,6 +8,7 @@ const exec = util.promisify(require('child_process').exec);
 const fs = require('fs');
 require('log-timestamp');
 
+
 const messageStats = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_MessageStatsReport.txt';
 const contactTimeReports = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_ContactTimesReport.txt';
 
@@ -16,13 +17,14 @@ const configFile = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/defaul
 
 
 //async exxecution of the-one
-async function ExTheOne() {
+async function ExTheOne(cfile) {
   try {
-      const { stdout, stderr } = await exec('./a.sh');
-      console.log('stdout:', stdout);
+    console.log(cfile)
+      const { stdout, stderr } = await exec("./a.sh "+cfile);
+      //console.log('stdout:', stdout);
 
   }catch (err) {
-     console.error(err);
+     //console.error(err);
   };
 };
 
@@ -57,100 +59,120 @@ app.get("/", (req,res)=> {
 app.post("/Start", (req,res)=> {
   console.log('here')
   console.log(req.body)
-  console.log(req.body.sTime)
   console.log('here')
   let count=0;
   let fus;
 
-  //change configuration here
-  //DELETE LINES 183-194
+  console.log('hiri')
 
-fs.readFile(configFile, 'utf8', (err, data) => {
-    if (err) throw err;
-
-    // remove the first line and the 5th and 6th lines in the file
-    fs.writeFile(configFile, removeLines(data, [180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194]), 'utf8', function(err) {
-        if (err) throw err;
-        console.log("the lines have been removed.");
-    });
-
-    fs.appendFile(configFile, "\n" + "\n" + "\n" + "Scenario.endTime = " + req.body.sTime + "\n" + "btInterface.transmitSpeed = " + req.body.tSpeed + "\n" +
-    "btInterface.transmitRange = " + req.body.tRange + "\n" +
-    "Group.nrofHosts = " + req.body.gHosts + "\n" + "Group.bufferSize = " + req.body.gBuffer + "\n" + "Group.waitTime = " + req.body.wTime + "\n" +
-    "Group.msgTtl = 300" + "\n" + "Group.speed = 0.5, 1.5" + "\n" +
-    "MovementModel.worldSize = " + req.body.wSize + "\n" + "Events1.interval = " + req.body.mInterval + "\n" + "Events1.size = " + req.body.mSize, 'utf8', function(err) {
-        if (err) throw err;
-        console.log("the config has changed");
-    });
-})
-
-  //ADD LINES
-  /*
-  Scenario.endTime = 43200
-  btInterface.transmitSpeed = 250k
-  btInterface.transmitRange = 10
-  Group.nrofHosts = 40
-  Group.bufferSize = 5M
-  Group.waitTime = 0, 120
-  Group.msgTtl = 300
-  Group.speed = 0.5, 1.5
-  MovementModel.worldSize = 4500, 3400
-  Events1.interval = 25,35
-  Events1.size = 500k,1M
-  */
-
-  ExTheOne();
-  console.log(`Watching for file changes on ${messageStats}`);
-
-  fs.watchFile(messageStats, (curr, prev) => {
-    console.log(`${messageStats} file Changed`);
-    if (fs.readFileSync(messageStats, "utf8") === "") {
-      console.log('empty')
-      console.log(count)
-    } else {
-      console.log(
-        "The contents of the messageStats file are:",
-        fs.readFileSync(messageStats, "utf8")
-      );
-
-      count=count+1;
-
-      if (count >= 2) {
-        fus = fus + fs.readFileSync(messageStats, "utf8")
-        res.json(fus);
-      } else {
-        fus=fs.readFileSync(messageStats, "utf8")
-      }
-
-    }
+  for (let i=0; i<req.body.length; i++){
+    let ifile= i+1;
+    fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
+    "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
+    "Group.nrofHosts = " + req.body[i].gHosts + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
+    "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
+    "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize, function (err) {
+      if (err) throw err;
+      console.log('File is created successfully.');
+      let a = String(ifile+'.txt')
+      setTimeout(()=> {
+      ExTheOne(ifile+'.txt')
+    },1000*i)
 
 
-  });
+      });
+  }
 
-  fs.watchFile(contactTimeReports, (curr, prev) => {
-    console.log(`${contactTimeReports} file Changed`);
+  console.log('hiri')
 
-    if (fs.readFileSync(contactTimeReports, "utf8") === "") {
-      console.log('empty')
-      console.log(count)
-    } else {
-      console.log(
-        "The contents of the contactTimeReports file are:",
-        fs.readFileSync(contactTimeReports, "utf8")
-        );
+  let lcount= 2*req.body.length
 
-        count=count+1;
 
-        if (count >= 2) {
-          fus = fus + fs.readFileSync(contactTimeReports, "utf8")
-          res.json(fus);
+  setTimeout(()=> {
+
+    for (let i=0; i<req.body.length; i++) {
+      let irep = i+1;
+      let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_MessageStatsReport.txt";
+      let contactTimeReports = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_ContactTimesReport.txt";
+
+      //ExTheOne(req.body.length);
+      console.log(`Watching for file changes on ${messageStats}`);
+      console.log(lcount)
+
+      fs.watchFile(messageStats, (curr, prev) => {
+        console.log(`${messageStats} file Changed`);
+        if (fs.readFileSync(messageStats, "utf8") === "") {
+          console.log('empty')
+          console.log(count)
         } else {
-          fus=fs.readFileSync(contactTimeReports, "utf8")
+          console.log(
+            "The contents of the messageStats file are:",
+            fs.readFileSync(messageStats, "utf8")
+          );
+
+          count=count+1;
+          console.log("---------------------------------------------------------------------------------------------")
+          console.log(count)
+          console.log("---------------------------------------------------------------------------------------------")
+          console.log(lcount)
+          console.log("---------------------------------------------------------------------------------------------")
+
+          if (count >= lcount) {
+            fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+            res.json(fus);
+          } else {
+            if (count == 1)
+              fus=messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+            else
+              fus=fus+'\n'+'\n'+messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+
+          }
 
         }
-    }
 
-    });
+
+      });
+
+      fs.watchFile(contactTimeReports, (curr, prev) => {
+        console.log(`${contactTimeReports} file Changed`);
+
+        if (fs.readFileSync(contactTimeReports, "utf8") === "") {
+          console.log('empty')
+          console.log(count)
+        } else {
+          console.log(
+            "The contents of the contactTimeReports file are:",
+            //fs.readFileSync(contactTimeReports, "utf8")
+            );
+
+            count=count+1;
+            console.log("---------------------------------------------------------------------------------------------")
+            console.log(count)
+            console.log("---------------------------------------------------------------------------------------------")
+            console.log(lcount)
+            console.log("---------------------------------------------------------------------------------------------")
+
+            if (count >= lcount) {
+              fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+              res.json(fus);
+            } else {
+              if (count == 1)
+                fus=contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+              else
+                fus=fus+'\n'+'\n'+contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+
+            }
+        }
+
+        });
+      }
+
+
+
+  },2000*(10))
+
+
+
 
 });
 

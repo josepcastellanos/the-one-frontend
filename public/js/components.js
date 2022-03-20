@@ -5,7 +5,7 @@ const rootComponent = {
    return{
      pressed: false,
      dataReport: "Charging",
-     Nsim: 1 ,
+     Nsim: 1,
      OneConfig: [{
        sTime: 43200,
        tRange: 10,
@@ -39,7 +39,10 @@ const rootComponent = {
       .then(response => response.json())
       .then(aJson => {
         console.log(aJson)
-        this.dataReport=aJson
+
+
+
+        this.dataReport=JSON.stringify(aJson);
       })
 
     }, // end sendact
@@ -50,8 +53,9 @@ const rootComponent = {
       //this.OneConfig[v]=conf
       vm.OneConfig.splice(v, 1, conf)
 
-      console.log(this.OneConfig)
-      this.$forceUpdate()
+      console.log(this.OneConfig);
+      this.$forceUpdate();
+
     }
 
  },
@@ -59,7 +63,7 @@ const rootComponent = {
    Nsim: function(val, oldval){
      console.log(val)
      console.log(oldval)
-
+     this.$forceUpdate();
      if (oldval<val){
        dif=val-oldval
      } else {
@@ -139,6 +143,7 @@ const rootComponent = {
 const reports  = {
   props: ['Rep'],
 
+
   template: `
   <small> {{Rep}} </small>
    `
@@ -176,7 +181,7 @@ const config  = {
   template: `
   <div style="display: flex;">
   <label for="sTime">Simulation time: </label>
-   <select id="time" name="time values" form="form" v-model="Config.sTime" v-bind:>
+   <select id="time" name="time values" form="form" v-model="Config.sTime">
     <option value="36000" > 36000 seconds </option>
     <option value="43200" selected> 43200 seconds </option>
     <option value="54000"> 54000 seconds </option>
