@@ -17,24 +17,19 @@ const configFile = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/defaul
 
 
 //async exxecution of the-one
-async function ExTheOne(cfile) {
+async function ExTheOne(cfile, ifile) {
   try {
+
     console.log(cfile)
       const { stdout, stderr } = await exec("./a.sh "+cfile);
-      //console.log('stdout:', stdout);
+      console.log('stdout:', stdout);
+      return ifile
 
   }catch (err) {
-     //console.error(err);
+     console.error(err);
   };
 };
 
-//remove-line function
-const removeLines = (data, lines = []) => {
-  return data
-      .split('\n')
-      .filter((val, idx) => lines.indexOf(idx) === -1)
-      .join('\n');
-}
 
 
 //creating thread for the web routing
@@ -62,6 +57,7 @@ app.post("/Start", (req,res)=> {
   console.log('here')
   let count=0;
   let fus;
+  let a=0;
 
   console.log('hiri')
 
@@ -74,9 +70,31 @@ app.post("/Start", (req,res)=> {
     "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize, function (err) {
       if (err) throw err;
       console.log('File is created successfully.');
-      let a = String(ifile+'.txt')
+
       setTimeout(()=> {
-      ExTheOne(ifile+'.txt')
+
+      ExTheOne(ifile+'.txt', ifile).then(irep=> {
+        a=a+1
+        let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_MessageStatsReport.txt";
+        let contactTimeReports = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_ContactTimesReport.txt";
+        if (a >= req.body.length) {
+          fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+          fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+          res.json(fus);
+          console.log("HOGRIDEEER")
+        } else {
+          if (a == 1) {
+            fus=messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+            fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+          }
+          else {
+            fus=fus+'\n'+'\n'+messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+            fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+          }
+        }
+
+      })
+      //console.log(a)
     },1000*i)
 
 
@@ -87,7 +105,7 @@ app.post("/Start", (req,res)=> {
 
   let lcount= 2*req.body.length
 
-
+  /**
   setTimeout(()=> {
 
     for (let i=0; i<req.body.length; i++) {
@@ -169,8 +187,8 @@ app.post("/Start", (req,res)=> {
 
 
 
-  },2000*(10))
-
+  },2000*(1))
+**/
 
 
 

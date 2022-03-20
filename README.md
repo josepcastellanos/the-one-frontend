@@ -42,7 +42,9 @@ Script in charge of executng the-one sumulator
 
 10/02/2022 -> More moddularity, the form is now a component, so now its possible to select a number of simulations (8 max), and all the parameters are stored dynamically in an array of OneConfig, at the moment is not possible to send this data structure to the back, the next step is to fix this.
 
-18/02/2022 -> Now the simulations are launched deppending on the form, and the report listeing system lets show the results. This system is not optimized.
+17/02/2022 -> Now the simulations are launched deppending on the form, and the report listeing system lets show the results. This system is not optimized.
+
+20/02/2022 -> Report system updated, now is implemented with a callback function that executes theOne simulations, now we have less loops and the code in the back has been reduced a lot.
 
 ## Done Checklist
 
@@ -60,7 +62,7 @@ Script in charge of executng the-one sumulator
 
 - [x]  Add simulation number to the simulation config form
 - [x]  Manage report system
-- [ ]  Optimized report system
+- [x]  Optimized report system
 - [ ]  Traces as parameters
 - [ ]  Split/Total
             Split: input parameter is a time range
@@ -70,12 +72,7 @@ Script in charge of executng the-one sumulator
 
 ## Possible improvements
 
-Optimize the report listening system
-
-Add config parameters to the simulation
-
-Optimize the change simulation config parameters
-
-Change the form number with a v-for system
-
-Optimize report system.
+- [x] Optimize the report listening system
+- [ ] Add config parameters to the simulation
+- [ ] Optimize the change simulation config parameters
+- [ ] Change the form number with a v-for system
