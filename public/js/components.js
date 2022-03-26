@@ -17,7 +17,8 @@ const rootComponent = {
        gSpeed: "0.5, 1.5",
        wSize: "4500, 3400",
        mInterval: "25, 35",
-       mSize: "500k, 1M"
+       mSize: "500k, 1M",
+       traces: "None"
      }]
 
    }
@@ -47,9 +48,6 @@ const rootComponent = {
 
     }, // end sendact
     nSimU: function(conf, v) {
-      console.log('uwu')
-      console.log(conf)
-      console.log(v)
       //this.OneConfig[v]=conf
       vm.OneConfig.splice(v, 1, conf)
 
@@ -83,7 +81,8 @@ const rootComponent = {
            gSpeed: "0.5, 1.5",
            wSize: "4500, 3400",
            mInterval: "25, 35",
-           mSize: "500k, 1M"
+           mSize: "500k, 1M",
+           traces: "None"
          })
        }
 
@@ -164,7 +163,8 @@ const config  = {
         gSpeed: "0.5, 1.5",
         wSize: "4500, 3400",
         mInterval: "25, 35",
-        mSize: "500k, 1M"
+        mSize: "500k, 1M",
+        traces: "None"
       }
     }
   },
@@ -253,6 +253,18 @@ const config  = {
    <option value="125k, 500k"> 125kB - 500kB </option>
    <option value="500k, 1M" selected> 500kB - 1MB </option>
    <option value="1M, 2M"> 1MB - 2MB </option>
+  </select>
+ <br>
+ <label for="traces">Trace file: </label>
+  <select id="trace file" name="creation values" form="form" v-model="Config.traces">
+   <option value="asturies-er-1year-10m.one"> Asturies </option>
+   <option value="Haggle3-Infocom5.csv" > H3-I5 </option>
+   <option value="Haggle3-Infocom5-2.csv"> H3-I5-2 </option>
+   <option value="haggle-one-cambridge-city-complete.tsv"> H1-Cambridge </option>
+   <option value="RealityConnectionTraceFinal.txt"> Reality </option>
+   <option value="taxi_february_1week_304nodes.txt"> Taxi </option>
+   <option value="tor.csv"> Tor </option>
+   <option value="None" selected> None </option>
   </select>
  <br>
  </div>

@@ -63,6 +63,25 @@ app.post("/Start", (req,res)=> {
 
   for (let i=0; i<req.body.length; i++){
     let ifile= i+1;
+    if (req.body[i].traces == "None") {
+          fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
+          "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
+          "Group.nrofHosts = " + req.body[i].gHosts + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
+          "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
+          "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize, function (err) {
+            if (err) throw err;
+            console.log('File is created successfully.');
+          });
+    } else {
+          fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
+          "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
+          "Group.nrofHosts = " + req.body[i].gHosts + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
+          "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
+          "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize + "\n" + "Scenario.simulateConnections = false \n Group.movementModel = StationaryMovement \n Group.nodeLocation = 0,1 \n Events.nrof = 1 \n Events1.class = ExternalEventsQueue \n Events1.filePath = /home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/traces/"+ req.body[i].traces, function (err) {
+            if (err) throw err;
+            console.log('File is created successfully.');
+          });
+    }
     fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
     "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
     "Group.nrofHosts = " + req.body[i].gHosts + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
@@ -70,35 +89,34 @@ app.post("/Start", (req,res)=> {
     "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize, function (err) {
       if (err) throw err;
       console.log('File is created successfully.');
+    });
 
-      setTimeout(()=> {
 
-      ExTheOne(ifile+'.txt', ifile).then(irep=> {
-        a=a+1
-        let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_MessageStatsReport.txt";
-        let contactTimeReports = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_ContactTimesReport.txt";
-        if (a >= req.body.length) {
-          fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
-          fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
-          res.json(fus);
-          console.log("HOGRIDEEER")
-        } else {
-          if (a == 1) {
-            fus=messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+    setTimeout(()=> {
+
+        ExTheOne(ifile+'.txt', ifile).then(irep=> {
+          a=a+1
+          let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_MessageStatsReport.txt";
+          let contactTimeReports = "/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_ContactTimesReport.txt";
+          if (a >= req.body.length) {
+            fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
             fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+            res.json(fus);
+            console.log("HOGRIDEEER")
+          } else {
+            if (a == 1) {
+              fus=messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+              fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+            }
+            else {
+              fus=fus+'\n'+'\n'+messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+              fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+            }
           }
-          else {
-            fus=fus+'\n'+'\n'+messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
-            fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
-          }
-        }
 
-      })
-      //console.log(a)
-    },1000*i)
-
-
-      });
+        })
+        //console.log(a)
+      },1000*ifile)
   }
 
   console.log('hiri')
