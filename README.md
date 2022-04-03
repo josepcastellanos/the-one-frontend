@@ -48,6 +48,7 @@ Script in charge of executng the-one sumulator
 
 26/03/2022 -> Traces as parameters implemented, but the correct params to run the simulation are unknown, a functionallity decision has to be taken.
 
+03/04/2022 -> Group simulation params have been included on the simulation form, group configuration improved, now its possible to select the number of groups, up to 3, and u can select the number of hosts, the movement model and range of the group Performed adding the params to the params data structure in the front, and sending it to the front, changing the config file structure to accept the group params.
 
 ## Done Checklist
 
@@ -67,13 +68,13 @@ Script in charge of executng the-one sumulator
 - [x]  Manage report system
 - [x]  Optimized report system
 - [x]  Traces as parameters
+- [x]  Group params included in the simulation form
 - [ ]  Trace simulations with correct params
-- [ ]  Split/Total
-            Split: input parameter is a time range
-            Total: Trace
 - [ ]  Decide final simulation form
 - [ ]  Download reports and config file
 - [ ]  Formating reports(later on)
+- [ ] Home page to select parameter simulation or bulk simulations
+- [ ] Bulk simulation
 
 
 ## Possible improvements

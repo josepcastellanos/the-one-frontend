@@ -10,6 +10,21 @@ const rootComponent = {
        sTime: 43200,
        tRange: 10,
        tSpeed: 250,
+
+       nGroups: "1",
+       G1_ID: "c",
+       G1_nH: "40",
+       G1_rF: "data/tram3.wkt",
+       G1_rT: "1",
+       G2_ID: "p",
+       G2_nH: "40",
+       G2_rF: "data/tram4.wkt",
+       G2_rT: "2",
+       G3_ID: "w",
+       G3_nH: "40",
+       G3_rF: "data/tram10.wkt",
+       G3_rT: "1",
+
        gHosts: 40,
        gBuffer: "5M",
        wTime: "0, 120",
@@ -29,7 +44,6 @@ const rootComponent = {
 
 
       const a=JSON.parse(JSON.stringify(this.OneConfig))
-      console.log(a)
       fetch('/Start', {
         method: "POST",
         headers: {
@@ -39,29 +53,32 @@ const rootComponent = {
       })
       .then(response => response.json())
       .then(aJson => {
-        console.log(aJson)
-
-
 
         this.dataReport=JSON.stringify(aJson);
       })
 
     }, // end sendact
     nSimU: function(conf, v) {
-      //this.OneConfig[v]=conf
-      vm.OneConfig.splice(v, 1, conf)
+      let a=this.OneConfig
+      a[v]=conf
+      this.OneConfig=[]
+      this.OneConfig=a
+      //vm.OneConfig.splice(v, 1, conf)
+      //this.OneConfig.splice(v, 1, conf)
+      //Vue.set(this.OneConfig, v, conf)
 
-      console.log(this.OneConfig);
       this.$forceUpdate();
+      if (conf.traces!="None"){
+        console.log("uwu")
+
+        //AWUI CONFIG TRACES!!!
+      }
 
     }
 
  },
  watch: {
    Nsim: function(val, oldval){
-     console.log(val)
-     console.log(oldval)
-     this.$forceUpdate();
      if (oldval<val){
        dif=val-oldval
      } else {
@@ -74,6 +91,21 @@ const rootComponent = {
            sTime: 43200,
            tRange: 10,
            tSpeed: 250,
+
+           nGroups: "1",
+           G1_ID: "c",
+           G1_nH: "40",
+           G1_rF: "data/tram3.wkt",
+           G1_rT: "1",
+           G2_ID: "p",
+           G2_nH: "40",
+           G2_rF: "data/tram4.wkt",
+           G2_rT: "2",
+           G3_ID: "w",
+           G3_nH: "40",
+           G3_rF: "data/tram10.wkt",
+           G3_rT: "1",
+
            gHosts: 40,
            gBuffer: "5M",
            wTime: "0, 120",
@@ -93,13 +125,14 @@ const rootComponent = {
 
 
      }
-   }
+     this.$forceUpdate();
+   },
+
+
  },
 
 
- template: `<button v-if="!pressed" v-on:click="Start">Click
- me</button>
-  <br>
+ template: `
   <label v-if="!pressed" for="nSim">Number simulations: </label>
   <select v-if="!pressed" id="nSim" name="simulation values" form="form" v-model="Nsim">
     <option value="1" selected> 1 simulation </option>
@@ -156,6 +189,21 @@ const config  = {
         sTime: 43200,
         tRange: 10,
         tSpeed: 250,
+
+        nGroups: "1",
+        G1_ID: "c",
+        G1_nH: "40",
+        G1_rF: "data/tram3.wkt",
+        G1_rT: "1",
+        G2_ID: "p",
+        G2_nH: "40",
+        G2_rF: "data/tram4.wkt",
+        G2_rT: "2",
+        G3_ID: "w",
+        G3_nH: "40",
+        G3_rF: "data/tram10.wkt",
+        G3_rT: "1",
+
         gHosts: 40,
         gBuffer: "5M",
         wTime: "0, 120",
@@ -171,10 +219,24 @@ const config  = {
   watch: {
     Config: {
       handler (o,n) {
-      console.log('iwi')
+        //this.Config.gHosts=0
+        switch (this.Config.nGroups) {
+          case "1":
+            this.Config.gHosts=this.Config.G1_nH*1;
+            break;
+          case "2": // foo es 0, por lo tanto se cumple la condición y se ejecutara el siguiente bloque
+            this.Config.gHosts=this.Config.G1_nH*1+this.Config.G2_nH*1;
+            break;
+          case "3": // No hay sentencia "break" en el 'case 0:', por lo tanto este caso también será ejecutado
+            this.Config.gHosts=this.Config.G1_nH*1+this.Config.G2_nH*1+this.Config.G3_nH*1;
+            break; // Al encontrar un "break", no será ejecutado el 'case 2:'
+          default:
+            this.Config.gHosts=this.Config.G1_nH*1+this.Config.G2_nH*1+this.Config.G3_nH*1;
+        }
       this.$emit('eConfig', this.Config)
       },
-      deep: true
+      deep: true,
+
     }
   },
   emits: ['eConfig'],
@@ -201,13 +263,78 @@ const config  = {
    <option value="650"> 5 Mbps / 650 kBps </option>
   </select>
  <br>
- <label for="gHosts">Group number of Hosts: </label>
-  <select id="transmit" name="transmit values" form="form" v-model="Config.gHosts">
-   <option value="20"> 20 Hosts </option>
-   <option value="40" selected> 40 Hosts </option>
-   <option value="80"> 80 Hosts </option>
+
+
+ <label for="nGroups">Number of Groups </label>
+  <select id="Groups" name="group number" form="form" v-model="Config.nGroups">
+   <option value="1"> 1 Group </option>
+   <option value="2" > 2 Groups </option>
+   <option value="3" selected> 3 Groups </option>
   </select>
  <br>
+ <label v-if="Config.nGroups>=1" for="nGroups"> Number of Hosts Group 1 </label>
+  <select v-if="Config.nGroups>=1" id="groups" name="host number" form="form" v-model="Config.G1_nH">
+   <option value="40" selected> 40 Hosts </option>
+   <option value="60" > 60 Hosts </option>
+   <option value="80" > 80 Hosts </option>
+  </select>
+ <br>
+ <label v-if="Config.nGroups>=1" for="nGroups"> Range Group 1 </label>
+  <select v-if="Config.nGroups>=1" id="group" name="group range" form="form" v-model="Config.G1_rF">
+   <option value="data/tram3.wkt" selected> Tram 3 </option>
+   <option value="data/tram4.wkt" > Tram 4 </option>
+   <option value="data/tram10.wkt" > Tram 10 </option>
+  </select>
+ <br>
+ <label v-if="Config.nGroups>=1" for="nGroups"> Movement model Group 1</label>
+  <select v-if="Config.nGroups>=1" id="group" name="group range" form="form" v-model="Config.G1_rT">
+   <option value="1" selected> Circular </option>
+   <option value="2" > Ping-pong </option>
+  </select>
+ <br>
+
+ <label v-if="Config.nGroups>=2" for="nGroups"> Number of Hosts Group 2 </label>
+  <select v-if="Config.nGroups>=2" id="groups" name="host number" form="form" v-model="Config.G2_nH">
+   <option value="40" selected> 40 Hosts </option>
+   <option value="60" > 60 Hosts </option>
+   <option value="80" > 80 Hosts </option>
+  </select>
+ <br>
+ <label v-if="Config.nGroups>=2" for="nGroups"> Range Group 2 </label>
+  <select v-if="Config.nGroups>=2" id="group" name="group range" form="form" v-model="Config.G2_rF">
+   <option value="data/tram3.wkt" selected> Tram 3 </option>
+   <option value="data/tram4.wkt" > Tram 4 </option>
+   <option value="data/tram10.wkt" > Tram 10 </option>
+  </select>
+ <br>
+ <label v-if="Config.nGroups>=2" for="nGroups"> Movement model Group 2</label>
+  <select v-if="Config.nGroups>=2" id="group" name="group range" form="form" v-model="Config.G2_rT">
+   <option value="1" selected> Circular </option>
+   <option value="2" > Ping-pong </option>
+  </select>
+ <br>
+
+ <label v-if="Config.nGroups>=3" for="nGroups"> Number of Hosts Group 3 </label>
+  <select v-if="Config.nGroups>=3" id="groups" name="host number" form="form" v-model="Config.G3_nH">
+   <option value="40" selected> 40 Hosts </option>
+   <option value="60" > 60 Hosts </option>
+   <option value="80" > 80 Hosts </option>
+  </select>
+ <br>
+ <label v-if="Config.nGroups>=3" for="nGroups"> Range Group 3 </label>
+  <select v-if="Config.nGroups>=3" id="group" name="group range" form="form" v-model="Config.G3_rF">
+   <option value="data/tram3.wkt" selected> Tram 3 </option>
+   <option value="data/tram4.wkt" > Tram 4 </option>
+   <option value="data/tram10.wkt" > Tram 10 </option>
+  </select>
+ <br>
+ <label v-if="Config.nGroups>=3" for="nGroups"> Movement model Group 3</label>
+  <select v-if="Config.nGroups>=3" id="group" name="group range" form="form" v-model="Config.G3_rT">
+   <option value="1" selected> Circular </option>
+   <option value="2" > Ping-pong </option>
+  </select>
+ <br>
+
  <label for="gBuffer">Group buffer size: </label>
   <select id="group" name="group values" form="form" v-model="Config.gBuffer">
    <option value="2M"> 2 M </option>

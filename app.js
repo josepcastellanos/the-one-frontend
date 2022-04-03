@@ -64,11 +64,17 @@ app.post("/Start", (req,res)=> {
   for (let i=0; i<req.body.length; i++){
     let ifile= i+1;
     if (req.body[i].traces == "None") {
+
+
           fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
           "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
-          "Group.nrofHosts = " + req.body[i].gHosts + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
+          "Group.nrofHosts = 40" + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
           "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
-          "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize, function (err) {
+          "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize + "\n" + "Scenario.nrofHostGroups = " + req.body[i].nGroups + "\n" +
+          "Events1.hosts = 0," + req.body[i].gHosts + "\n" + "Group1.groupID = " + req.body[i].G1_ID + "\n" + "Group1.nrofHosts = " + req.body[i].G1_nH + "\n" + "Group1.movementModel = MapRouteMovement" + "\n" +
+          "Group1.routeFile = " + req.body[i].G1_rF + "\n" + "Group1.routeType = " + req.body[i].G1_rT + "\n" + "Group2.groupID = " + req.body[i].G2_ID + "\n" + "Group2.nrofHosts = " + req.body[i].G2_nH + "\n" + "Group2.movementModel = MapRouteMovement" + "\n" +
+          "Group2.routeFile = " + req.body[i].G2_rF + "\n" + "Group2.routeType = " + req.body[i].G2_rT + "\n" + "Group3.groupID = " + req.body[i].G3_ID + "\n" + "Group3.nrofHosts = " + req.body[i].G3_nH + "\n" + "Group3.movementModel = MapRouteMovement" + "\n" +
+          "Group3.routeFile = " + req.body[i].G3_rF + "\n" + "Group3.routeType = " + req.body[i].G3_rT, function (err) {
             if (err) throw err;
             console.log('File is created successfully.');
           });
@@ -82,14 +88,7 @@ app.post("/Start", (req,res)=> {
             console.log('File is created successfully.');
           });
     }
-    fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
-    "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
-    "Group.nrofHosts = " + req.body[i].gHosts + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
-    "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
-    "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize, function (err) {
-      if (err) throw err;
-      console.log('File is created successfully.');
-    });
+
 
 
     setTimeout(()=> {
