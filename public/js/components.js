@@ -13,19 +13,21 @@ const rootComponent = {
 
        nGroups: "1",
        G1_ID: "c",
-       G1_nH: "40",
+       G1_nH: "60",
        G1_rF: "data/tram3.wkt",
        G1_rT: "1",
        G2_ID: "p",
-       G2_nH: "40",
+       G2_nH: "60",
        G2_rF: "data/tram4.wkt",
        G2_rT: "2",
        G3_ID: "w",
-       G3_nH: "40",
+       G3_nH: "60",
        G3_rF: "data/tram10.wkt",
        G3_rT: "1",
 
-       gHosts: 40,
+       PreL: "13000",
+
+       gHosts: 60,
        gBuffer: "5M",
        wTime: "0, 120",
        gTTL: 300,
@@ -94,19 +96,21 @@ const rootComponent = {
 
            nGroups: "1",
            G1_ID: "c",
-           G1_nH: "40",
+           G1_nH: "60",
            G1_rF: "data/tram3.wkt",
            G1_rT: "1",
            G2_ID: "p",
-           G2_nH: "40",
+           G2_nH: "60",
            G2_rF: "data/tram4.wkt",
            G2_rT: "2",
            G3_ID: "w",
-           G3_nH: "40",
+           G3_nH: "60",
            G3_rF: "data/tram10.wkt",
            G3_rT: "1",
 
-           gHosts: 40,
+           PreL: "13000",
+
+           gHosts: 60,
            gBuffer: "5M",
            wTime: "0, 120",
            gTTL: 300,
@@ -192,19 +196,21 @@ const config  = {
 
         nGroups: "1",
         G1_ID: "c",
-        G1_nH: "40",
+        G1_nH: "60",
         G1_rF: "data/tram3.wkt",
         G1_rT: "1",
         G2_ID: "p",
-        G2_nH: "40",
+        G2_nH: "60",
         G2_rF: "data/tram4.wkt",
         G2_rT: "2",
         G3_ID: "w",
-        G3_nH: "40",
+        G3_nH: "60",
         G3_rF: "data/tram10.wkt",
         G3_rT: "1",
 
-        gHosts: 40,
+        PreL: "13000",
+
+        gHosts: 60,
         gBuffer: "5M",
         wTime: "0, 120",
         gTTL: 300,
@@ -213,12 +219,23 @@ const config  = {
         mInterval: "25, 35",
         mSize: "500k, 1M",
         traces: "None"
-      }
+      },
+      taxi: false,
     }
   },
   watch: {
     Config: {
       handler (o,n) {
+        if(this.Config.traces=="taxi_february_1week_304nodes.txt"){
+          this.taxi=true;
+          this.Config.nGroups="1"
+          this.Config.G1_nH="304"
+        } else{
+          this.taxi=false;
+        }
+        if(this.Config.traces=="RealityConnectionTraceFinal.txt"){
+          this.Config.G1_nH="100"
+        }
         //this.Config.gHosts=0
         switch (this.Config.nGroups) {
           case "1":
@@ -240,6 +257,11 @@ const config  = {
     }
   },
   emits: ['eConfig'],
+  methods: {
+    traced: function(n){
+      return this.Config.nGroups>=n && this.Config.traces == "None" && this.taxi==false
+    },
+  },
   template: `
   <div style="display: flex;">
   <label for="sTime">Simulation time: </label>
@@ -265,29 +287,39 @@ const config  = {
  <br>
 
 
- <label for="nGroups">Number of Groups </label>
-  <select id="Groups" name="group number" form="form" v-model="Config.nGroups">
-   <option value="1"> 1 Group </option>
+ <label v-if="!taxi" for="nGroups">Number of Groups </label>
+  <select v-if="!taxi" id="Groups" name="group number" form="form" v-model="Config.nGroups">
+   <option value="1" selected> 1 Group </option>
    <option value="2" > 2 Groups </option>
-   <option value="3" selected> 3 Groups </option>
+   <option value="3" > 3 Groups </option>
   </select>
  <br>
- <label v-if="Config.nGroups>=1" for="nGroups"> Number of Hosts Group 1 </label>
-  <select v-if="Config.nGroups>=1" id="groups" name="host number" form="form" v-model="Config.G1_nH">
-   <option value="40" selected> 40 Hosts </option>
-   <option value="60" > 60 Hosts </option>
+ <label v-if="taxi" for="nGroups">Number of Groups </label>
+  <select v-if="taxi" id="Groups" name="group number" form="form" v-model="Config.nGroups">
+   <option value="1" selected> 1 Group </option>
+  </select>
+ <br>
+ <label v-if="!taxi" for="nGroups"> Number of Hosts Group 1 </label>
+  <select v-if="!taxi" id="groups" name="host number" form="form" v-model="Config.G1_nH">
+   <option value="60" selected> 60 Hosts </option>
    <option value="80" > 80 Hosts </option>
+   <option value="100" > 100 Hosts </option>
   </select>
  <br>
- <label v-if="Config.nGroups>=1" for="nGroups"> Range Group 1 </label>
-  <select v-if="Config.nGroups>=1" id="group" name="group range" form="form" v-model="Config.G1_rF">
+ <label v-if="taxi" for="nGroups"> Number of Hosts Group 1 </label>
+  <select v-if="taxi" id="groups" name="host number" form="form" v-model="Config.G1_nH">
+   <option value="304" selected> 304 Hosts </option>
+  </select>
+ <br>
+ <label v-if="traced(1)" for="nGroups"> Range Group 1 </label>
+  <select v-if="traced(1)" id="group" name="group range" form="form" v-model="Config.G1_rF">
    <option value="data/tram3.wkt" selected> Tram 3 </option>
    <option value="data/tram4.wkt" > Tram 4 </option>
    <option value="data/tram10.wkt" > Tram 10 </option>
   </select>
  <br>
- <label v-if="Config.nGroups>=1" for="nGroups"> Movement model Group 1</label>
-  <select v-if="Config.nGroups>=1" id="group" name="group range" form="form" v-model="Config.G1_rT">
+ <label v-if="traced(1)" for="nGroups"> Movement model Group 1</label>
+  <select v-if="traced(1)" id="group" name="group range" form="form" v-model="Config.G1_rT">
    <option value="1" selected> Circular </option>
    <option value="2" > Ping-pong </option>
   </select>
@@ -295,20 +327,20 @@ const config  = {
 
  <label v-if="Config.nGroups>=2" for="nGroups"> Number of Hosts Group 2 </label>
   <select v-if="Config.nGroups>=2" id="groups" name="host number" form="form" v-model="Config.G2_nH">
-   <option value="40" selected> 40 Hosts </option>
-   <option value="60" > 60 Hosts </option>
+   <option value="60" selected> 60 Hosts </option>
    <option value="80" > 80 Hosts </option>
+   <option value="100" > 100 Hosts </option>
   </select>
  <br>
- <label v-if="Config.nGroups>=2" for="nGroups"> Range Group 2 </label>
-  <select v-if="Config.nGroups>=2" id="group" name="group range" form="form" v-model="Config.G2_rF">
+ <label v-if="traced(2)" for="nGroups"> Range Group 2 </label>
+  <select v-if="traced(2)" id="group" name="group range" form="form" v-model="Config.G2_rF">
    <option value="data/tram3.wkt" selected> Tram 3 </option>
    <option value="data/tram4.wkt" > Tram 4 </option>
    <option value="data/tram10.wkt" > Tram 10 </option>
   </select>
  <br>
- <label v-if="Config.nGroups>=2" for="nGroups"> Movement model Group 2</label>
-  <select v-if="Config.nGroups>=2" id="group" name="group range" form="form" v-model="Config.G2_rT">
+ <label v-if="traced(2)" for="nGroups"> Movement model Group 2</label>
+  <select v-if="traced(2)" id="group" name="group range" form="form" v-model="Config.G2_rT">
    <option value="1" selected> Circular </option>
    <option value="2" > Ping-pong </option>
   </select>
@@ -321,15 +353,15 @@ const config  = {
    <option value="80" > 80 Hosts </option>
   </select>
  <br>
- <label v-if="Config.nGroups>=3" for="nGroups"> Range Group 3 </label>
-  <select v-if="Config.nGroups>=3" id="group" name="group range" form="form" v-model="Config.G3_rF">
+ <label v-if="traced(3)" for="nGroups"> Range Group 3 </label>
+  <select v-if="traced(3)" id="group" name="group range" form="form" v-model="Config.G3_rF">
    <option value="data/tram3.wkt" selected> Tram 3 </option>
    <option value="data/tram4.wkt" > Tram 4 </option>
    <option value="data/tram10.wkt" > Tram 10 </option>
   </select>
  <br>
- <label v-if="Config.nGroups>=3" for="nGroups"> Movement model Group 3</label>
-  <select v-if="Config.nGroups>=3" id="group" name="group range" form="form" v-model="Config.G3_rT">
+ <label v-if="traced(3)" for="nGroups"> Movement model Group 3</label>
+  <select v-if="traced(3)" id="group" name="group range" form="form" v-model="Config.G3_rT">
    <option value="1" selected> Circular </option>
    <option value="2" > Ping-pong </option>
   </select>

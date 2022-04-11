@@ -68,7 +68,7 @@ app.post("/Start", (req,res)=> {
 
           fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
           "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
-          "Group.nrofHosts = 40" + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
+          "Group.nrofHosts = 60" + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
           "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
           "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize + "\n" + "Scenario.nrofHostGroups = " + req.body[i].nGroups + "\n" +
           "Events1.hosts = 0," + req.body[i].gHosts + "\n" + "Group1.groupID = " + req.body[i].G1_ID + "\n" + "Group1.nrofHosts = " + req.body[i].G1_nH + "\n" + "Group1.movementModel = MapRouteMovement" + "\n" +
@@ -81,9 +81,12 @@ app.post("/Start", (req,res)=> {
     } else {
           fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
           "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
-          "Group.nrofHosts = " + req.body[i].gHosts + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
+          "Group.nrofHosts = 60"  + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
           "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
-          "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize + "\n" + "Scenario.simulateConnections = false \n Group.movementModel = StationaryMovement \n Group.nodeLocation = 0,1 \n Events.nrof = 1 \n Events1.class = ExternalEventsQueue \n Events1.filePath = /home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/traces/"+ req.body[i].traces, function (err) {
+          "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize + "\n" + "Scenario.simulateConnections = false \nGroup.movementModel = StationaryMovement \nGroup.nodeLocation = 0,1 \nEvents.nrof = 2 \nEvents2.class = ExternalEventsQueue \nReport.nrofReports = 1 \nEvents2.filePath = /home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/traces/"+ req.body[i].traces
+          + "\n" + "Events1.nrofPreload = " + req.body[i].PreL + "\n" + "Scenario.nrofHostGroups = " + req.body[i].nGroups + "\n" +
+          "Events1.hosts = 0," + req.body[i].gHosts + "\n" + "Group1.groupID = " + req.body[i].G1_ID + "\n" + "Group1.nrofHosts = " + req.body[i].G1_nH + "\n" + "Group2.groupID = " + req.body[i].G2_ID + "\n" + "Group2.nrofHosts = " + req.body[i].G2_nH + "\n" + "Group3.groupID = "
+          + req.body[i].G3_ID + "\n" + "Group3.nrofHosts = " + req.body[i].G3_nH, function (err) {
             if (err) throw err;
             console.log('File is created successfully.');
           });
@@ -95,8 +98,8 @@ app.post("/Start", (req,res)=> {
 
         ExTheOne(ifile+'.txt', ifile).then(irep=> {
           a=a+1
-          let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_MessageStatsReport.txt";
-          let contactTimeReports = "/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/1/"+irep+"_ContactTimesReport.txt";
+          let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_MessageStatsReport.txt";
+          let contactTimeReports = "/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_ContactTimesReport.txt";
           if (a >= req.body.length) {
             fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
             fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
