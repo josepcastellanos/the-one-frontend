@@ -77,8 +77,9 @@ Script in charge of executng the-one sumulator
 - [x]  Decide final simulation form
 - [x]  Download reports and config file
 - [ ]  Formating reports(later on)
+- [ ]  Bulk simulation
 - [ ] Home page to select parameter simulation or bulk simulations
-- [ ] Bulk simulation
+
 
 
 ## Possible improvements
@@ -88,3 +89,4 @@ Script in charge of executng the-one sumulator
 - [ ] Optimize the change simulation config parameters
 - [ ] Change the form number with a v-for system
 - [ ] Change the form distribution, vertial each form instead of horizontal.
+- [ ] Test all sim cases.
