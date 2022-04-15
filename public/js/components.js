@@ -1,4 +1,5 @@
 
+
 //Creating the Vue object.
 const rootComponent = {
   data() {
@@ -6,6 +7,8 @@ const rootComponent = {
      pressed: false,
      dataReport: "Charging",
      Nsim: 1,
+     Dselected: 1,
+     Rselected: 1,
      OneConfig: [{
        sTime: 43200,
        tRange: 10,
@@ -36,7 +39,8 @@ const rootComponent = {
        mInterval: "25, 35",
        mSize: "500k, 1M",
        traces: "None"
-     }]
+     }],
+
 
    }
  },
@@ -76,7 +80,53 @@ const rootComponent = {
         //AWUI CONFIG TRACES!!!
       }
 
-    }
+    },
+    dConfig: function(){
+      //SELECT DEL REPORT Y CONFIG, Y PEDIR AL BACK ESE CONFIG/REPORT CONTENT, METER EN UNA VARIABLE, Y DESCARGAR ASÍ.
+      var a={number: this.Dselected}
+      fetch('/downloadConfig', {
+        method: "POST",
+        headers: {
+           "Content-Type": "application/json"
+         },
+
+        body: JSON.stringify(a),
+      })
+      .then(response => response.json())
+      .then(aJson => {
+        //console.log(aJson)
+        var blob = new Blob([ aJson ], { "type" : "text/plain" });
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = this.Dselected+'_config.txt'
+        link.click()
+        //this.dataReport=JSON.stringify(aJson);
+      })
+
+    },
+    dReport: function(){
+      var a={number: this.Rselected}
+      fetch('/downloadRep', {
+        method: "POST",
+        headers: {
+           "Content-Type": "application/json"
+         },
+
+        body: JSON.stringify(a),
+      })
+      .then(response => response.json())
+      .then(aJson => {
+        //console.log(aJson)
+        var blob = new Blob([ aJson ], { "type" : "text/plain" });
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = this. Rselected+'_report.txt'
+        link.click()
+        //this.dataReport=JSON.stringify(aJson);
+      })
+
+
+    },
 
  },
  watch: {
@@ -170,6 +220,24 @@ const rootComponent = {
  <input type="submit" value="Start!">
  </form>
  <reports v-if="pressed" v-bind:Rep="dataReport"> </reports>
+ <br>
+ <form v-if="dataReport!='Charging'" ref="form" v-on:submit.prevent="dConfig()">
+ <select class="form-control" name="template" v-model="Dselected">
+    <option v-for="(item,index) in OneConfig" v-bind:value="index+1">
+       {{ index+1}}
+    </option>
+</select>
+ <input type="submit" value="Descarregar configuració">
+ </form>
+
+ <form v-if="dataReport!='Charging'" ref="form" v-on:submit.prevent="dReport()">
+ <select class="form-control" name="template" v-model="Rselected">
+    <option v-for="(item,index) in OneConfig" v-bind:value="index+1">
+       {{ index+1}}
+    </option>
+</select>
+ <input type="submit" value="Descarregar report">
+ </form>
  `
 
 

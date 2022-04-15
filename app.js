@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const util = require('util');
+
 //exec using promises for asyncronous execution of the-one
 const exec = util.promisify(require('child_process').exec);
 
@@ -10,7 +11,7 @@ require('log-timestamp');
 
 
 const messageStats = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_MessageStatsReport.txt';
-const contactTimeReports = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_ContactTimesReport.txt';
+const contactTimeReports = '/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/default_scenario_ContactTimesReport.txt';
 
 const configFile = '/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/default_settings.txt'
 
@@ -214,6 +215,29 @@ app.post("/Start", (req,res)=> {
 
 });
 
+app.post('/downloadRep',(req, res)=>{
+  console.log(req.body.number)
+  let config=fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+ req.body.number+"_MessageStatsReport.txt", "utf8")
+  res.json(config)
+});
+
+app.post('/downloadConfig', (req, res)=>{
+  /**
+  const file = '/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/1.txt';
+  res.download(file, '1.txt', (err) => {
+    if (err) {
+      res.status(500).send({
+        message: "Could not download the file. " + err,
+      }); // Set disposition and send it.
+    }
+    });
+    **/
+  console.log(req.body.number)
+  let config=fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/"+ req.body.number+".txt", "utf8")
+  res.json(config)
+  //console.log(req.body.length)
+
+});
 
 
 

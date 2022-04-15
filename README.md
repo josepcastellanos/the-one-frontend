@@ -50,6 +50,10 @@ Script in charge of executng the-one sumulator
 
 03/04/2022 -> Group simulation params have been included on the simulation form, group configuration improved, now its possible to select the number of groups, up to 3, and u can select the number of hosts, the movement model and range of the group Performed adding the params to the params data structure in the front, and sending it to the front, changing the config file structure to accept the group params.
 
+10/04/2022 -> Traces as parameters correctly implemented, Taxi trace only works with 304 hosts and reality trace only works with more than 100 hosts.
+
+14/04/2022 -> It is possible to select the report and config file of each simulation to download.
+
 ## Done Checklist
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
@@ -69,9 +73,9 @@ Script in charge of executng the-one sumulator
 - [x]  Optimized report system
 - [x]  Traces as parameters
 - [x]  Group params included in the simulation form
-- [ ]  Trace simulations with correct params
-- [ ]  Decide final simulation form
-- [ ]  Download reports and config file
+- [x]  Trace simulations with correct params
+- [x]  Decide final simulation form
+- [x]  Download reports and config file
 - [ ]  Formating reports(later on)
 - [ ] Home page to select parameter simulation or bulk simulations
 - [ ] Bulk simulation
