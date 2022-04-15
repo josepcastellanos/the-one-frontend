@@ -90,3 +90,5 @@ Script in charge of executng the-one sumulator
 - [ ] Change the form number with a v-for system
 - [ ] Change the form distribution, vertial each form instead of horizontal.
 - [ ] Test all sim cases.
+
+https://forum.vuejs.org/t/vue-style-visibility-hidden-on-v-show-how/58293
