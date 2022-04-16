@@ -54,6 +54,8 @@ Script in charge of executng the-one sumulator
 
 14/04/2022 -> It is possible to select the report and config file of each simulation to download.
 
+16/04/2022 -> Formulary distribution changed, now the interfacie is more firendly.
+
 ## Done Checklist
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
@@ -85,8 +87,8 @@ Script in charge of executng the-one sumulator
 ## Possible improvements
 
 - [x] Optimize the report listening system
-- [ ] Add config parameters to the simulation
+- [x] Add config parameters to the simulation
 - [ ] Optimize the change simulation config parameters
 - [ ] Change the form number with a v-for system
-- [ ] Change the form distribution, vertial each form instead of horizontal.
+- [x] Change the form distribution, vertial each form instead of horizontal.
 - [ ] Test all sim cases.
