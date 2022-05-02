@@ -2,7 +2,7 @@
   "name": "The-One FE",
   "version": "1.0.0",
   "description": "The-One Frontend",
-  "main": "index.html",
+  "main": "home.html",
   "directories": {
     "lib": "lib"
   },

@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const util = require('util');
+const router =express.Router();
 
 
 
@@ -50,12 +51,25 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
+
 //initial routing, home page with the-one start button
-app.get("/", (req,res)=> {
-
-  res.sendFile(path.join(__dirname,'index.html'));
-
+app.get('*', function(req, res) {
+    res.sendFile(__dirname + '/home.html');
 });
+
+app.get("/", (req,res)=> {
+  res.sendFile(__dirname + '/home.html');
+});
+
+app.post("/par", (req,res)=> {
+  res.sendFile(__dirname + '/par.html');
+});
+
+app.post("/bulk", (req,res)=> {
+  res.sendFile(__dirname + '/bulk.html');
+});
+
+
 
 //routing when the-one button is pressed
 app.post("/Start", (req,res)=> {
