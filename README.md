@@ -58,6 +58,8 @@ Script in charge of executng the-one sumulator
 
 29/04/2022 -> Charts creation implemented with frappe Chart vue.js component.
 
+02/05/2022 -> Home page and corresponding routing system implemented, two main options, new bulk simulation, and terminated parameter simulation.
+
 ## Done Checklist
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
@@ -81,8 +83,9 @@ Script in charge of executng the-one sumulator
 - [x]  Decide final simulation form
 - [x]  Download reports and config file
 - [ ]  Formating reports(later on)
-- [ ]  Bulk simulation
-- [ ] Home page to select parameter simulation or bulk simulations
+- [ ]  Bulk simulation frontend
+- [ ]  Bulk simulation backend
+- [x] Home page to select parameter simulation or bulk simulations
 
 
 
