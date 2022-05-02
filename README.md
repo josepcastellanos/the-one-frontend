@@ -56,6 +56,8 @@ Script in charge of executng the-one sumulator
 
 16/04/2022 -> Formulary distribution changed, now the interfacie is more firendly.
 
+29/04/2022 -> Charts creation implemented with frappe Chart vue.js component.
+
 ## Done Checklist
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps

@@ -1,5 +1,9 @@
 
 
+
+
+
+
 //Creating the Vue object.
 const rootComponent = {
   data() {
@@ -127,6 +131,61 @@ const rootComponent = {
 
 
     },
+    graph: function(){
+      const data = {
+          labels: ["12am-3am", "3am-6pm", "6am-9am", "9am-12am",
+              "12pm-3pm", "3pm-6pm", "6pm-9pm", "9am-12am"
+          ],
+          datasets: [
+              {
+                  name: "Some Data", type: "bar",
+                  values: [25, 40, 40, 35, 8, 52, 17, -4]
+              },
+              {
+                  name: "Another Set", type: "line",
+                  values: [25, 50, -10, 15, 18, 32, 27, 14]
+              }
+          ]
+      }
+
+      const chart = new frappe.Chart("#chart", {  // or a DOM element,
+                                                  // new Chart() in case of ES6 module with above usage
+          title: "My Awesome Chart",
+          data: data,
+          type: 'axis-mixed', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
+          height: 250,
+          colors: ['#7cd6fd', '#743ee2']
+      })
+
+
+    const data2 = {
+        labels: ["12am-3am", "3am-6pm", "6am-9am", "9am-12am",
+            "12pm-3pm", "3pm-6pm", "6pm-9pm", "9am-12am"
+        ],
+        datasets: [
+            {
+                name: "Some Data", type: "bar",
+                values: [25, 40, 0, 35, 8, 52, 17, -4]
+            },
+            {
+                name: "Another Set", type: "line",
+                values: [25, 50, -10, 15, 18, 32, 27, 14]
+            }
+        ]
+    }
+
+    const chart2 = new frappe.Chart("#chart2", {  // or a DOM element,
+                                                // new Chart() in case of ES6 module with above usage
+        title: "My NotAwesome Chart",
+        data: data2,
+        type: 'axis-mixed', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
+        height: 250,
+        colors: ['#7cd6fd', '#743ee2']
+    })
+
+  }
+
+
 
  },
  watch: {
@@ -185,6 +244,7 @@ const rootComponent = {
 
  },
  template: `
+ <button v-on:Click="graph"> jiji </button>
   <label v-if="!pressed" for="nSim">Number simulations: </label>
   <select v-if="!pressed" id="nSim" name="simulation values" form="form" v-model="Nsim">
     <option value="1" selected> 1 simulation </option>
@@ -237,6 +297,10 @@ const rootComponent = {
 </select>
  <input type="submit" value="Descarregar report">
  </form>
+
+
+
+
  `
 
 
@@ -515,7 +579,12 @@ const config  = {
 
 
 
+console.log(frappe)
+//const chart=frappe.
 const app = Vue.createApp(rootComponent);
+
 app.component('reports', reports);
 app.component('config', config);
+
+
 const vm = app.mount("#app");
