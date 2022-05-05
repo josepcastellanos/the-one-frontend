@@ -1,13 +1,8 @@
-
-
-
-
-
-
 //Creating the Vue object.
 const rootComponent = {
   data() {
    return{
+     Premenu: false,
      pressed: false,
      dataReport: "Charging",
      Nsim: 1,
@@ -18,6 +13,7 @@ const rootComponent = {
        tRange: 10,
        tSpeed: 250,
 
+       Grout: "EpidemicRouter",
        nGroups: "1",
        G1_ID: "c",
        G1_nH: "60",
@@ -49,9 +45,15 @@ const rootComponent = {
    }
  },
  methods: {
-   Start: function(){
-      this.pressed=true
+   Confirm: function(){
+     this.Premenu=true;
+   },
+   Cancel: function(){
 
+   },
+   Start: function(){
+      this.pressed=true;
+      this.Premenu=false;
 
       const a=JSON.parse(JSON.stringify(this.OneConfig))
       fetch('/Start', {
@@ -85,27 +87,50 @@ const rootComponent = {
       }
 
     },
-    dConfig: function(){
+    dConfig: function(all){
       //SELECT DEL REPORT Y CONFIG, Y PEDIR AL BACK ESE CONFIG/REPORT CONTENT, METER EN UNA VARIABLE, Y DESCARGAR ASÍ.
-      var a={number: this.Dselected}
-      fetch('/downloadConfig', {
-        method: "POST",
-        headers: {
-           "Content-Type": "application/json"
-         },
+      if (all==1){
+        const b=JSON.parse(JSON.stringify(this.OneConfig))
+        fetch('/GenConfig', {
+          method: "POST",
+          headers: {
+             "Content-Type": "application/json"
+           },
+          body: JSON.stringify(b),
+        })
+        .then(response => console.log("b"))
 
-        body: JSON.stringify(a),
-      })
-      .then(response => response.json())
-      .then(aJson => {
-        //console.log(aJson)
-        var blob = new Blob([ aJson ], { "type" : "text/plain" });
-        let link = document.createElement('a')
-        link.href = window.URL.createObjectURL(blob)
-        link.download = this.Dselected+'_config.txt'
-        link.click()
-        //this.dataReport=JSON.stringify(aJson);
-      })
+        var a={number: "all", total: this.Nsim}
+      } else {
+        var a={number: this.Dselected}
+      }
+      setTimeout(()=> {
+        fetch('/downloadConfig', {
+          method: "POST",
+          headers: {
+             "Content-Type": "application/json"
+           },
+
+          body: JSON.stringify(a),
+        })
+        .then(response => response.json())
+        .then(aJson => {
+          //console.log(aJson)
+          var blob = new Blob([ aJson ], { "type" : "text/plain" });
+          let link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          if(this.Premenu){
+            link.download = 'Configs.txt'
+          } else{
+            link.download = this.Dselected+'_config.txt'
+          }
+
+          link.click()
+          //this.dataReport=JSON.stringify(aJson);
+        })
+
+      }, 500)
+
 
     },
     dReport: function(){
@@ -124,7 +149,7 @@ const rootComponent = {
         var blob = new Blob([ aJson ], { "type" : "text/plain" });
         let link = document.createElement('a')
         link.href = window.URL.createObjectURL(blob)
-        link.download = this. Rselected+'_report.txt'
+        link.download = this.Rselected+'_report.txt'
         link.click()
         //this.dataReport=JSON.stringify(aJson);
       })
@@ -203,6 +228,7 @@ const rootComponent = {
            tRange: 10,
            tSpeed: 250,
 
+           Grout: "EpidemicRouter",
            nGroups: "1",
            G1_ID: "c",
            G1_nH: "60",
@@ -259,7 +285,7 @@ const rootComponent = {
 
  <h1 v-if="!pressed" > Select the simulation configuration: </h1>
 
- <form v-if="!pressed" ref="form" v-on:submit.prevent="Start">
+ <form v-if="!pressed" ref="form" v-on:submit.prevent="Confirm">
 
 
 
@@ -278,6 +304,8 @@ const rootComponent = {
 
  <input class="start" type="submit" value="Start!">
  </form>
+
+
  <reports v-if="pressed" v-bind:Rep="dataReport"> </reports>
  <br>
  <form v-if="dataReport!='Charging'" ref="form" v-on:submit.prevent="dConfig()">
@@ -298,6 +326,11 @@ const rootComponent = {
  <input type="submit" value="Descarregar report">
  </form>
 
+ <div id="popup" v-if="Premenu==true">
+ <button id="D" v-on:click="dConfig(1)"> Download config files</button>
+ <button id="S" v-on:click="Start()"> Start simulations</button>
+ <button id="C" v-on:click="Premenu=false"> Cancel</button>
+ </div>
 
 
 
@@ -325,6 +358,7 @@ const config  = {
         tRange: 10,
         tSpeed: 250,
 
+        Grout: "EpidemicRouter",
         nGroups: "1",
         G1_ID: "c",
         G1_nH: "60",
@@ -434,6 +468,25 @@ const config  = {
    <option value="650"> 5 Mbps / 650 kBps </option>
   </select>
   <br>
+  <label v-bind:style="pStyle" for="Grout">Group routing algorithm: </label>
+   <select id="transmit" name="transmit values" form="form" v-model="Config.Grout">
+    <option value="ProphetRouter"> Prophet </option>
+    <option value="EpidemicRouter" selected> Epidemic </option>
+    <option value="SprayAndWaitRouter"> Spray and wait router </option>
+    <option value="ActiveRouter"> Active </option>
+    <option value="DirectDeliveryRouter"> Direct delivery </option>
+    <option value="EpidemicOracleRouter"> Epidemic Oracle </option>
+    <option value="FirstContactRouter"> First contact </option>
+    <option value="LifeRouter"> Life </option>
+    <option value="MaxPropRouter"> Max prop </option>
+    <option value="MaxPropRouterWithEstimation"> Max prop with estimation </option>
+    <option value="MessageRouter"> Message </option>
+    <option value="PassiveRouter"> Passive </option>
+    <option value="ProphetRouterWithEstimation"> Prophet with estimation </option>
+    <option value="ProphetV2Router"> Prophet V2 </option>
+    <option value="WaveRouter"> Wave </option>
+   </select>
+   <br>
  <label v-bind:style="pStyle" v-if="!taxi" for="nGroups">Number of Groups: </label>
   <select v-if="!taxi" id="Groups" name="group number" form="form" v-model="Config.nGroups">
    <option value="1" selected> 1 Group </option>
@@ -465,7 +518,7 @@ const config  = {
    <option value="data/tram10.wkt" > Tram 10 </option>
   </select>
   <br>
- <label v-bind:style="pStyle" for="nGroups"> Movement model Group 1: </label>
+ <label v-bind:style="pStyle" for="nGroups"> Route type Group 1: </label>
   <select :style="{visibility: traced(1) ? 'visible' : 'hidden'}" id="group" name="group range" form="form" v-model="Config.G1_rT">
    <option value="1" selected> Circular </option>
    <option value="2" > Ping-pong </option>
@@ -485,7 +538,7 @@ const config  = {
    <option value="data/tram10.wkt" > Tram 10 </option>
   </select>
   <br>
- <label v-bind:style="pStyle" for="nGroups"> Movement model Group 2: </label>
+ <label v-bind:style="pStyle" for="nGroups"> Route type Group 2: </label>
   <select :style="{visibility: traced(2) ? 'visible' : 'hidden'}" id="group" name="group range" form="form" v-model="Config.G2_rT">
    <option value="1" selected> Circular </option>
    <option value="2" > Ping-pong </option>
@@ -505,7 +558,7 @@ const config  = {
    <option value="data/tram10.wkt" > Tram 10 </option>
   </select>
   <br>
- <label v-bind:style="pStyle" for="nGroups"> Movement model Group 3: </label>
+ <label v-bind:style="pStyle" for="nGroups"> Route type Group 3: </label>
   <select :style="{visibility: traced(3) ? 'visible' : 'hidden'}" id="group" name="group range" form="form" v-model="Config.G3_rT">
    <option value="1" selected> Circular </option>
    <option value="2" > Ping-pong </option>

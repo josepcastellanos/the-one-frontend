@@ -40,6 +40,8 @@ async function ExTheOne(cfile, ifile) {
 
 
 
+
+
 //creating thread for the web routing
 const app = express()
 const port = 3000
@@ -88,7 +90,7 @@ app.post("/Start", (req,res)=> {
 
 
           fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
-          "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
+          "btInterface.transmitRange = " + req.body[i].tRange + "\n" + "Group.router = " + req.body[i].Grout + "\n" +
           "Group.nrofHosts = 60" + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
           "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
           "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize + "\n" + "Scenario.nrofHostGroups = " + req.body[i].nGroups + "\n" +
@@ -235,6 +237,57 @@ app.post("/Start", (req,res)=> {
 
 });
 
+app.post("/GenConfig", (req,res)=> {
+  console.log('here')
+  console.log(req.body)
+  console.log('here')
+  let count=0;
+  let fus;
+  let a=0;
+
+  console.log('hiri')
+
+  for (let i=0; i<req.body.length; i++){
+    let ifile= i+1;
+    if (req.body[i].traces == "None") {
+
+
+          fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
+          "btInterface.transmitRange = " + req.body[i].tRange + "\n" + "Group.router = " + req.body[i].Grout + "\n" +
+          "Group.nrofHosts = 60" + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
+          "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
+          "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize + "\n" + "Scenario.nrofHostGroups = " + req.body[i].nGroups + "\n" +
+          "Events1.hosts = 0," + req.body[i].gHosts + "\n" + "Group1.groupID = " + req.body[i].G1_ID + "\n" + "Group1.nrofHosts = " + req.body[i].G1_nH + "\n" + "Group1.movementModel = MapRouteMovement" + "\n" +
+          "Group1.routeFile = " + req.body[i].G1_rF + "\n" + "Group1.routeType = " + req.body[i].G1_rT + "\n" + "Group2.groupID = " + req.body[i].G2_ID + "\n" + "Group2.nrofHosts = " + req.body[i].G2_nH + "\n" + "Group2.movementModel = MapRouteMovement" + "\n" +
+          "Group2.routeFile = " + req.body[i].G2_rF + "\n" + "Group2.routeType = " + req.body[i].G2_rT + "\n" + "Group3.groupID = " + req.body[i].G3_ID + "\n" + "Group3.nrofHosts = " + req.body[i].G3_nH + "\n" + "Group3.movementModel = MapRouteMovement" + "\n" +
+          "Group3.routeFile = " + req.body[i].G3_rF + "\n" + "Group3.routeType = " + req.body[i].G3_rT, function (err) {
+            if (err) throw err;
+            console.log('File is created successfully.');
+          });
+    } else {
+          fs.writeFile('./the-one/'+ifile+'.txt', "Scenario.name = " + ifile + "\n" + "Scenario.endTime = " + req.body[i].sTime + "\n" + "btInterface.transmitSpeed = " + req.body[i].tSpeed + "\n" +
+          "btInterface.transmitRange = " + req.body[i].tRange + "\n" +
+          "Group.nrofHosts = 60"  + "\n" + "Group.bufferSize = " + req.body[i].gBuffer + "\n" + "Group.waitTime = " + req.body[i].wTime + "\n" +
+          "Group.msgTtl = " + req.body[i].gTTL + "\n" + "Group.speed = " + req.body[i].gSpeed + "\n" +
+          "MovementModel.worldSize = " + req.body[i].wSize + "\n" + "Events1.interval = " + req.body[i].mInterval + "\n" + "Events1.size = " + req.body[i].mSize + "\n" + "Scenario.simulateConnections = false \nGroup.movementModel = StationaryMovement \nGroup.nodeLocation = 0,1 \nEvents.nrof = 2 \nEvents2.class = ExternalEventsQueue \nReport.nrofReports = 1 \nEvents2.filePath = /home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/traces/"+ req.body[i].traces
+          + "\n" + "Events1.nrofPreload = " + req.body[i].PreL + "\n" + "Scenario.nrofHostGroups = " + req.body[i].nGroups + "\n" +
+          "Events1.hosts = 0," + req.body[i].gHosts + "\n" + "Group1.groupID = " + req.body[i].G1_ID + "\n" + "Group1.nrofHosts = " + req.body[i].G1_nH + "\n" + "Group2.groupID = " + req.body[i].G2_ID + "\n" + "Group2.nrofHosts = " + req.body[i].G2_nH + "\n" + "Group3.groupID = "
+          + req.body[i].G3_ID + "\n" + "Group3.nrofHosts = " + req.body[i].G3_nH, function (err) {
+            if (err) throw err;
+            console.log('File is created successfully.');
+          });
+    }
+
+
+  }
+  res.json(fus)
+
+  console.log('hiri')
+
+  let lcount= 2*req.body.length
+
+});
+
 app.post('/downloadRep',(req, res)=>{
   console.log(req.body.number)
   let config=fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+ req.body.number+"_MessageStatsReport.txt", "utf8")
@@ -252,9 +305,18 @@ app.post('/downloadConfig', (req, res)=>{
     }
     });
     **/
-  console.log(req.body.number)
-  let config=fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/"+ req.body.number+".txt", "utf8")
-  res.json(config)
+    if (req.body.number=="all"){
+      let config="[Simulation Config 1] \n" + fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/1.txt", "utf8") + "\n \n" ;
+      for (let i = 1; i<req.body.total; i++){
+        let fl=i+1;
+        config= config + "[Simulation Config " + fl + "] \n" + fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/"+ fl +".txt", "utf8") + "\n \n";
+      }
+      res.json(config)
+    } else {
+      console.log(req.body.number)
+      let config=fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/"+ req.body.number+".txt", "utf8")
+      res.json(config)
+    }
   //console.log(req.body.length)
 
 });

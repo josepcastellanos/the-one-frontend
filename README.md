@@ -60,6 +60,10 @@ Script in charge of executng the-one sumulator
 
 02/05/2022 -> Home page and corresponding routing system implemented, two main options, new bulk simulation, and terminated parameter simulation.
 
+04/05/2022 -> Popup menu added when starting a simulation, 3 options, cancel, download (modified downlaod function in back and front, so u can download before and after a simulation) or simulate, done with html div v-if.
+
+04/05/2022 -> Now it's possible to select the routing algorithm for each simulation, in both parametered and bulk simulation mode.
+
 ## Done Checklist
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
@@ -68,7 +72,7 @@ Script in charge of executng the-one sumulator
 - [x]       Parameters/Create form simulation config
 - [x]       Parameters/Pass the config to the back
 - [x]       Parameters/Change the txt (replace config)
-- [x]       Parameters/Check it works
+- [x]       Parameters/Check it works     
 
 
 
@@ -83,8 +87,10 @@ Script in charge of executng the-one sumulator
 - [x]  Decide final simulation form
 - [x]  Download reports and config file
 - [ ]  Formating reports(later on)
+- [x]  Popup menu with cancel, download or start simulation
+- [x]  Add routing algorithm to bulk and parameter simulation
 - [ ]  Bulk simulation frontend
-- [ ]  Bulk simulation backend
+- [ ]  Bulk simulation backend (sampled)
 - [x] Home page to select parameter simulation or bulk simulations
 
 
@@ -95,5 +101,7 @@ Script in charge of executng the-one sumulator
 - [x] Add config parameters to the simulation
 - [ ] Optimize the change simulation config parameters
 - [ ] Change the form number with a v-for system
-- [x] Change the form distribution, vertial each form instead of horizontal.
-- [ ] Test all sim cases.
+- [x] Change the form distribution, vertial each form instead of horizontal
+- [ ] Test all sim cases
+- [ ] Event file
+- [ ] DB storage

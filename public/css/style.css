@@ -188,3 +188,28 @@ h1 {
   text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
+
+#C  {
+  color: red;
+  width: 250px;
+  height: 150px;
+}
+#S {
+  color: blueviolet;
+  width: 250px;
+  height: 150px;
+}
+
+#D {
+  COLOR: GREEN;
+    width: 250px;
+  height: 150px;
+}
+
+#popup {
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
