@@ -90,6 +90,7 @@ const rootComponent = {
     dConfig: function(all){
       //SELECT DEL REPORT Y CONFIG, Y PEDIR AL BACK ESE CONFIG/REPORT CONTENT, METER EN UNA VARIABLE, Y DESCARGAR ASÍ.
       if (all==1){
+        this.Premenu=false;
         const b=JSON.parse(JSON.stringify(this.OneConfig))
         fetch('/GenConfig', {
           method: "POST",
