@@ -90,7 +90,6 @@ const rootComponent = {
     dConfig: function(all){
       //SELECT DEL REPORT Y CONFIG, Y PEDIR AL BACK ESE CONFIG/REPORT CONTENT, METER EN UNA VARIABLE, Y DESCARGAR ASÍ.
       if (all==1){
-        this.Premenu=false;
         const b=JSON.parse(JSON.stringify(this.OneConfig))
         fetch('/GenConfig', {
           method: "POST",
@@ -125,8 +124,8 @@ const rootComponent = {
           } else{
             link.download = this.Dselected+'_config.txt'
           }
-
           link.click()
+          this.Premenu=false;
           //this.dataReport=JSON.stringify(aJson);
         })
 

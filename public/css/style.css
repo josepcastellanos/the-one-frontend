@@ -69,7 +69,7 @@ body {
 
 table {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
   height: 320px;
   border-collapse: collapse;
   border: 1px solid #38678f;
@@ -78,7 +78,7 @@ table {
 }
 th {
   background: steelblue;
-  height: 54px;
+  height: 100px;
   width: 25%;
   font-weight: lighter;
   text-shadow: 0 1px 0 #38678f;
@@ -212,4 +212,14 @@ h1 {
     left: 50%;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+.checkboxes label {
+  text-align: center;
+}
+.checkboxes input {
+  vertical-align: middle;
+}
+.checkboxes label span {
+  vertical-align: middle;
 }

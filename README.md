@@ -105,3 +105,5 @@ Script in charge of executng the-one sumulator
 - [ ] Test all sim cases
 - [ ] Event file
 - [ ] DB storage
+- [ ] Add wait time options
+- [ ] Pass minutes to hours in grop message ttl
