@@ -2,6 +2,10 @@ const rootComponent  = {
   data(){
     return{
     nGroups: "1",
+    dataReport: "Charging",
+    maxOpt: "18",
+    dis: false,
+    pressed: false,
     Config: {
       "Scenario.endTime": ["Simulation Time", "36000", "43200", "54000", "43200 seconds", "0"],
       "btInterface.transmitRange": ["Transmit range", "10", "50", "100", "10 meters", "0"],
@@ -25,10 +29,11 @@ const rootComponent  = {
 
   },
   GroupShow: [false, false, false],
+
   Csim: []
 
 
-    }
+}
   },
   methods: {
     GroupCheck: function(ngr) {
@@ -41,44 +46,63 @@ const rootComponent  = {
     },
     chData: function(key, data){
 
-      if (key=="Scenario.nrofHostGroups"){
-        let n=data-1
-        this.GroupShow[n]=!this.GroupShow[n]
-        for(let i=0; i<this.GroupShow.length; i++){
-          if(this.GroupShow[i]==true){
-            this.nGroups=i+1;
+
+        if (key=="Scenario.nrofHostGroups"){
+          let n=data-1
+          this.GroupShow[n]=!this.GroupShow[n]
+          for(let i=0; i<this.GroupShow.length; i++){
+            if(this.GroupShow[i]==true){
+              this.nGroups=i+1;
+            }
+          }
+          if (!(this.GroupShow.includes(true))){
+              this.nGroups=1
           }
         }
-        if (!(this.GroupShow.includes(true))){
-            this.nGroups=1
-        }
-      }
 
+        let obj = {};
+        obj[key] = data;
+        console.log(key)
+        console.log(data)
+        let dec="add";
+        let pos=0;
 
-      let obj = {};
-      obj[key] = data;
-      console.log(key)
-      console.log(data)
-      let dec="add";
-
-      if (this.Csim.length===0){
-        console.log("aja")
-        this.Csim.push(obj)
-      } else {
-        for (let i=0; i<this.Csim.length; i++) {
-          if (this.Csim[i].hasOwnProperty(key) && this.Csim[i][key]==data){
-            console.log("!--------------!")
-            dec="noadd"
-            this.Csim.splice(i, 1)
-            i=99999
-          }
-        }
-        if (dec=="add"){
-          console.log("------------------")
+        if (this.Csim.length===0){
+          console.log("aja")
           this.Csim.push(obj)
+        } else {
+          for (let i=0; i<this.Csim.length; i++) {
+            if (this.Csim[i].hasOwnProperty(key) && this.Csim[i][key]==data){
+              console.log("!--------------!")
+              dec="noadd"
+              this.Csim.splice(i, 1)
+              i=99999
+            }  else if(this.Csim[i].hasOwnProperty(key)){
+                pos=i
+            }
+          }
+          if (dec=="add"){
+            console.log("------------------")
+            this.Csim.splice(pos, 0, obj)
+            pos=this.Csim.length
+          }
+
         }
 
+      if(this.maxOpt<this.Csim.length){
+        alert("Maximum options selected")
+        var cbs = document.getElementsByClassName("cbox");
+      for (var i = 0; i < cbs.length; i++) {
+        if(cbs[i].checked==false) {
+          cbs[i].disabled=true
+        }
       }
+    } else {
+      var cbs = document.getElementsByClassName("cbox");
+      for (var i = 0; i < cbs.length; i++) {
+          cbs[i].disabled=false
+      }
+    }
 
 
 
@@ -95,6 +119,22 @@ const rootComponent  = {
 
 
     },
+    StartB: function(){
+      this.pressed=true;
+      const a=JSON.parse(JSON.stringify(this.Csim))
+      fetch('/StartB', {
+        method: "POST",
+        headers: {
+           "Content-Type": "application/json"
+         },
+        body: JSON.stringify(a),
+      })
+      .then(response => response.json())
+      .then(aJson => {
+
+        this.dataReport=JSON.stringify(aJson);
+      })
+    }
 
   },
 
@@ -105,8 +145,9 @@ const rootComponent  = {
 
 
 
+  <reports v-if="pressed" v-bind:Rep="dataReport"> </reports>
 
-  <form method="post" action="http://jkorpela.fi/cgi-bin/echo.cgi">
+  <form v-if="!pressed" v-on:submit.prevent="StartB">
   <table class="rtable" border="1">
   <tr>
   <td></td>
@@ -117,20 +158,32 @@ const rootComponent  = {
   </tr>
   <tr v-for="(sale, i) in Config" >
      <th scope="row"  v-if="sale[5]<=nGroups">{{sale[0]}}</th>
-     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input @change="chData(i, sale[1])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[1]}}">({{sale[1]}})</label></td>
-     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input @change="chData(i, sale[2])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[2]}}">({{sale[2]}})</label></td>
-     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input @change="chData(i, sale[3])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[3]}}">({{sale[3]}})</label></td>
+     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input class="cbox" :disbaled="dis" @change="chData(i, sale[1])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[1]}}">({{sale[1]}})</label></td>
+     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input class="cbox" :disabled="dis" @change="chData(i, sale[2])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[2]}}">({{sale[2]}})</label></td>
+     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input class="cbox" :disabled="dis" @change="chData(i, sale[3])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[3]}}">({{sale[3]}})</label></td>
      <td v-if="sale[5]<=nGroups">{{sale[4]}}</td>
   </tr>
   </table>
-  <p><input type="submit" value="submit" name="b1"></p>
+  <p><input type="submit" value="StartB!" name="b1"></p>
   </form>
    `
 
 };
 
+const reports  = {
+  props: ['Rep'],
+
+
+  template: `
+  <small> {{Rep}} </small>
+   `
+
+};
+
+
 //const chart=frappe.
 const app = Vue.createApp(rootComponent);
+app.component('reports', reports);
 
 
 const vm = app.mount("#app");

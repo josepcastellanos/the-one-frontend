@@ -38,6 +38,71 @@ async function ExTheOne(cfile, ifile) {
   };
 };
 
+function rep(n, arr){
+  let count=0
+
+  for (let i=0; i< arr.length; i++){
+    if(Object.keys(arr[i])==n){
+      count=count+1
+    }
+  }
+  return count
+}
+
+
+
+
+function bTCombinations(i, n, arr, aux, ConfigRes) {
+
+  let nrep=0
+  let count=0
+
+  if (arr.length==0){
+    return ConfigRes
+  } else if(aux.length==0) {
+    nrep=rep(String(Object.keys(arr[i])), arr)
+
+    while(count<nrep){
+
+      aux.push(arr[i])
+      ConfigRes=bTCombinations(i, Object.keys(arr[i]), arr, aux, ConfigRes)
+      aux.pop()
+      i=i+1
+      count=count+1
+    }
+    return ConfigRes
+  } else {
+    let found=false
+    while (!found){
+      if (i==arr.length){
+        console.log("Aux:")
+        console.log(aux)
+        ConfigRes.push(Object.values(aux))
+        console.log("Res:")
+        console.log(ConfigRes)
+
+        return ConfigRes
+      }
+      if (n==String(Object.keys(arr[i]))){
+        i=i+1
+      } else {
+        found=true
+      }
+    }
+    nrep=rep(String(Object.keys(arr[i])), arr)
+    while(count<nrep){
+      aux.push(arr[i])
+      ConfigRes=bTCombinations(i, Object.keys(arr[i]), arr, aux, ConfigRes)
+      aux.pop()
+      i=i+1
+      count=count+1
+    }
+    return ConfigRes
+  }
+  return ConfigRes
+}
+
+
 
 
 
@@ -318,6 +383,97 @@ app.post('/downloadConfig', (req, res)=>{
       res.json(config)
     }
   //console.log(req.body.length)
+
+});
+
+
+app.post("/StartB", (req,res)=> {
+  let fus;
+  let zer
+  let a=0;
+  console.log('here')
+  console.log(req.body)
+  console.log('here')
+  console.log('hiri')
+
+  let x=[]
+  let y=[]
+
+  const GenerateConfig = async () => {
+  let aux=[]
+  const ConfigRes = await bTCombinations(0,0,req.body,x,y, aux)
+  return ConfigRes;
+}
+
+
+GenerateConfig().then((ConfigRes)=>{
+  console.log("----------------------------")
+  //console.log(ConfigRes)
+  let pos=1
+
+  if (ConfigRes.length>4){
+    pos=Math.floor(ConfigRes.length/4)
+  }
+  console.log(pos)
+  //pos es la suma
+  let numConfigs=0
+  for (let x=0; x<ConfigRes.length; x+=pos){
+    numConfigs++
+  }
+  console.log(numConfigs)
+
+  for(let i=0; i<numConfigs; i++){
+  let ifile=i+1
+
+  console.log(ifile)
+
+    let insertConfig="Scenario.name = " + ifile + "\n"
+
+    for(let n=0; n<(ConfigRes[i].length); n++){
+      ky=Object.keys(ConfigRes[i][n])
+      insertConfig=insertConfig + ky + " = " + ConfigRes[i][n][ky] + "\n"
+    }
+
+    console.log(insertConfig)
+
+
+    fs.writeFile('./the-one/'+ifile+'.txt', insertConfig, function (err) {
+      if (err) throw err;
+      console.log('File is created successfully.');
+    });
+
+      setTimeout(()=> {
+
+          ExTheOne(ifile+'.txt', ifile).then(irep=> {
+            a=a+1
+            let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_MessageStatsReport.txt";
+
+            if (a >= numConfigs) {
+              fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+
+              res.json(fus);
+              console.log("HOGRIDEEER")
+            } else {
+              if (a == 1) {
+                fus=messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+              }
+              else {
+                fus=fus+'\n'+'\n'+messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+
+              }
+            }
+
+          })
+          //console.log(a)
+        },1000*ifile)
+
+  }
+
+
+
+
+})
+
 
 });
 
