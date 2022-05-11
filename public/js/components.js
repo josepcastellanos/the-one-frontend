@@ -11,7 +11,7 @@ const rootComponent = {
      OneConfig: [{
        sTime: 43200,
        tRange: 10,
-       tSpeed: 250,
+       tSpeed: "250k",
 
        Grout: "EpidemicRouter",
        nGroups: "1",
@@ -226,7 +226,7 @@ const rootComponent = {
          this.OneConfig.push({
            sTime: 43200,
            tRange: 10,
-           tSpeed: 250,
+           tSpeed: "250k",
 
            Grout: "EpidemicRouter",
            nGroups: "1",
@@ -356,7 +356,7 @@ const config  = {
       Config: {
         sTime: 43200,
         tRange: 10,
-        tSpeed: 250,
+        tSpeed: "250k",
 
         Grout: "EpidemicRouter",
         nGroups: "1",
@@ -463,9 +463,9 @@ const config  = {
  <br>
  <label v-bind:style="pStyle" for="tSpeed">Transmit speed: </label>
   <select id="transmit" name="transmit values" form="form" v-model="Config.tSpeed">
-   <option value="125"> 1 Mbps / 125 kBps </option>
-   <option value="250" selected> 2 Mbps / 250 kBps </option>
-   <option value="650"> 5 Mbps / 650 kBps </option>
+   <option value="125k"> 1 Mbps / 125 kBps </option>
+   <option value="250k" selected> 2 Mbps / 250 kBps </option>
+   <option value="650k"> 5 Mbps / 650 kBps </option>
   </select>
   <br>
   <label v-bind:style="pStyle" for="Grout">Group routing algorithm: </label>

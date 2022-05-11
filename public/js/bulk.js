@@ -9,7 +9,7 @@ const rootComponent  = {
     Config: {
       "Scenario.endTime": ["Simulation Time", "36000", "43200", "54000", "43200 seconds", "0"],
       "btInterface.transmitRange": ["Transmit range", "10", "50", "100", "10 meters", "0"],
-      "btInterface.transmitSpeed": ["Transmit speed", "125", "250", "650", "2 Mbps / 250 kBps", "0"],
+      "btInterface.transmitSpeed": ["Transmit speed", "125k", "250k", "650k", "2 Mbps / 250 kBps", "0"],
       "Group.router": ["Group routing algorithm", "ProphetRouter", "EpidemicRouter", "SprayAndWaitRouter", "Epidemic", "0"],
       "Scenario.nrofHostGroups": ["Number of Groups", "1", "2", "3", "1 Group", "0"],
       "Group1.nrofHosts": ["Number of Hosts Group 1", "60", "80", "100", "60 Hosts", "1"],
