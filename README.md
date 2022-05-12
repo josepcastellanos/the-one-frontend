@@ -66,6 +66,10 @@ Script in charge of executng the-one sumulator
 
 08/05/2022 -> Bulk backend finished, the combinations made with a backtracking function bTCombinations(), that goes over a tree, generating all the combinations, only /4 Combinations are selected, the file config is generated, and then launched by the-one, the results are correctly received in the front.
 
+12/05/2022 -> Bulk pre...
+
+12/05/2022 ->
+
 ## Done Checklist
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
@@ -93,7 +97,8 @@ Script in charge of executng the-one sumulator
 - [x]  Add routing algorithm to bulk and parameter simulation
 - [x]  Bulk simulation frontend
 - [x]  Bulk simulation backend (sampled)
-- [ ] Include Confirmation menu to the bulk front-end
+- [x] Include Confirmation menu to the bulk front-end
+- [ ] Add to the readme how to activate Server mode (unlock).
 - [x] Home page to select parameter simulation or bulk simulations
 
 
