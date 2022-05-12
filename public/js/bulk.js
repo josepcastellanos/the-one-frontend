@@ -1,11 +1,15 @@
 const rootComponent  = {
   data(){
     return{
+    Premenu: false,
     nGroups: "1",
     dataReport: "Charging",
     maxOpt: "18",
     dis: false,
     pressed: false,
+    Dselected: 1,
+    Rselected: 1,
+    Nsim: {},
     Config: {
       "Scenario.endTime": ["Simulation Time", "36000", "43200", "54000", "43200 seconds", "0"],
       "btInterface.transmitRange": ["Transmit range", "10", "50", "100", "10 meters", "0"],
@@ -30,12 +34,17 @@ const rootComponent  = {
   },
   GroupShow: [false, false, false],
 
-  Csim: []
+  Csim: [],
+
+
 
 
 }
   },
   methods: {
+    Confirm: function(){
+      this.Premenu=true;
+    },
     GroupCheck: function(ngr) {
       if(this.nGroups>ngr){
         return "false";
@@ -121,6 +130,22 @@ const rootComponent  = {
     },
     StartB: function(){
       this.pressed=true;
+      this.Premenu=false;
+      const b=JSON.parse(JSON.stringify(this.Csim))
+      fetch('/CalcNsim', {
+        method: "POST",
+        headers: {
+           "Content-Type": "application/json"
+         },
+        body: JSON.stringify(b),
+      })
+      .then(response => response.json())
+      .then(aJson => {
+
+        this.Nsim={total: JSON.stringify(aJson)}
+
+
+      })
       const a=JSON.parse(JSON.stringify(this.Csim))
       fetch('/StartB', {
         method: "POST",
@@ -134,7 +159,113 @@ const rootComponent  = {
 
         this.dataReport=JSON.stringify(aJson);
       })
+      console.log(String(this.Nsim.total))
+    },
+    dConfig: function(all){
+      //SELECT DEL REPORT Y CONFIG, Y PEDIR AL BACK ESE CONFIG/REPORT CONTENT, METER EN UNA VARIABLE, Y DESCARGAR ASÍ.
+      if (all==1){
+        const b=JSON.parse(JSON.stringify(this.Csim))
+        fetch('/GenBulkConfig', {
+          method: "POST",
+          headers: {
+             "Content-Type": "application/json"
+           },
+          body: JSON.stringify(b),
+        })
+        .then(response => response.json())
+        .then(aJson => {
+
+          this.Nsim={number: "all", total: JSON.stringify(aJson)}
+
+
+        })
+
+
+      } else {
+          console.log(this.Dselected)
+          this.Nsim={number: this.Dselected, total: this.Nsim.total}
+      }
+      if (all==1){
+      setTimeout(()=> {
+        fetch('/downloadConfig', {
+          method: "POST",
+          headers: {
+             "Content-Type": "application/json"
+           },
+
+          body: JSON.stringify(this.Nsim),
+        })
+        .then(response => response.json())
+        .then(aJson => {
+          //console.log(aJson)
+          var blob = new Blob([ aJson ], { "type" : "text/plain" });
+          let link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          if(this.Premenu){
+            link.download = 'Configs.txt'
+          } else{
+            link.download = this.Dselected+'_config.txt'
+          }
+          link.click()
+          this.Premenu=false;
+          //this.dataReport=JSON.stringify(aJson);
+        })
+
+      }, 500)
+    } else {
+      setTimeout(()=> {
+        fetch('/downloadConfig', {
+          method: "POST",
+          headers: {
+             "Content-Type": "application/json"
+           },
+
+          body: JSON.stringify(this.Nsim),
+        })
+        .then(response => response.json())
+        .then(aJson => {
+          //console.log(aJson)
+          var blob = new Blob([ aJson ], { "type" : "text/plain" });
+          let link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          if(this.Premenu){
+            link.download = 'Configs.txt'
+          } else{
+            link.download = this.Dselected+'_config.txt'
+          }
+          link.click()
+          this.Premenu=false;
+          //this.dataReport=JSON.stringify(aJson);
+        })
+
+      }, 500)
+
     }
+
+    },
+    dReport: function(){
+      var a={number: this.Rselected}
+      fetch('/downloadRep', {
+        method: "POST",
+        headers: {
+           "Content-Type": "application/json"
+         },
+
+        body: JSON.stringify(a),
+      })
+      .then(response => response.json())
+      .then(aJson => {
+        //console.log(aJson)
+        var blob = new Blob([ aJson ], { "type" : "text/plain" });
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = this.Rselected+'_report.txt'
+        link.click()
+        //this.dataReport=JSON.stringify(aJson);
+      })
+
+
+    },
 
   },
 
@@ -147,7 +278,7 @@ const rootComponent  = {
 
   <reports v-if="pressed" v-bind:Rep="dataReport"> </reports>
 
-  <form v-if="!pressed" v-on:submit.prevent="StartB">
+  <form v-if="!pressed" v-on:submit.prevent="Confirm">
   <table class="rtable" border="1">
   <tr>
   <td></td>
@@ -166,6 +297,31 @@ const rootComponent  = {
   </table>
   <p><input type="submit" value="StartB!" name="b1"></p>
   </form>
+
+  <br>
+  <form v-if="dataReport!='Charging'" ref="form" v-on:submit.prevent="dConfig()">
+  <select class="form-control" name="template" v-model="Dselected">
+     <option v-for="(item,index) in parseInt(Nsim.total)" v-bind:value="index+1">
+        {{ index+1}}
+     </option>
+ </select>
+  <input type="submit" value="Descarregar configuració">
+  </form>
+
+  <form v-if="dataReport!='Charging'" ref="form" v-on:submit.prevent="dReport()">
+  <select class="form-control" name="template" v-model="Rselected">
+     <option v-for="(item,index) in parseInt(Nsim.total)" v-bind:value="index+1">
+        {{ index+1}}
+     </option>
+ </select>
+  <input type="submit" value="Descarregar report">
+  </form>
+
+  <div id="popup" v-if="Premenu==true">
+  <button id="D" v-on:click="dConfig(1)"> Download config files</button>
+  <button id="S" v-on:click="StartB()"> Start simulations</button>
+  <button id="C" v-on:click="Premenu=false"> Cancel</button>
+  </div>
    `
 
 };

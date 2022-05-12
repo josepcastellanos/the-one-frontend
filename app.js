@@ -416,22 +416,22 @@ GenerateConfig().then((ConfigRes)=>{
   }
   console.log(pos)
   //pos es la suma
-  let numConfigs=0
+  let numConfigs=[]
   for (let x=0; x<ConfigRes.length; x+=pos){
-    numConfigs++
+    numConfigs.push(x)
   }
   console.log(numConfigs)
 
-  for(let i=0; i<numConfigs; i++){
+  for(let i=0; i<numConfigs.length; i++){
   let ifile=i+1
 
   console.log(ifile)
 
     let insertConfig="Scenario.name = " + ifile + "\n"
 
-    for(let n=0; n<(ConfigRes[i].length); n++){
-      ky=Object.keys(ConfigRes[i][n])
-      insertConfig=insertConfig + ky + " = " + ConfigRes[i][n][ky] + "\n"
+    for(let n=0; n<(ConfigRes[numConfigs[i]].length); n++){
+      ky=Object.keys(ConfigRes[numConfigs[i]][n])
+      insertConfig=insertConfig + ky + " = " + ConfigRes[numConfigs[i]][n][ky] + "\n"
     }
 
     console.log(insertConfig)
@@ -448,7 +448,7 @@ GenerateConfig().then((ConfigRes)=>{
             a=a+1
             let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_MessageStatsReport.txt";
 
-            if (a >= numConfigs) {
+            if (a >= numConfigs.length) {
               fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
 
               res.json(fus);
@@ -476,6 +476,113 @@ GenerateConfig().then((ConfigRes)=>{
 
 
 });
+
+app.post("/GenBulkConfig", (req,res)=> {
+  let fus;
+  let zer
+  let a=0;
+  console.log('here')
+  console.log(req.body)
+  console.log('here')
+  console.log('hiri')
+
+  let x=[]
+  let y=[]
+
+  const GenerateConfig = async () => {
+  let aux=[]
+  const ConfigRes = await bTCombinations(0,0,req.body,x,y, aux)
+  return ConfigRes;
+}
+
+
+GenerateConfig().then((ConfigRes)=>{
+  console.log("----------------------------")
+  //console.log(ConfigRes)
+  let pos=1
+
+  if (ConfigRes.length>4){
+    pos=Math.floor(ConfigRes.length/4)
+  }
+  console.log(pos)
+  //pos es la suma
+  let numConfigs=[]
+  for (let x=0; x<ConfigRes.length; x+=pos){
+    numConfigs.push(x)
+  }
+  console.log(numConfigs)
+
+  for(let i=0; i<numConfigs.length; i++){
+  let ifile=i+1
+
+  console.log(ifile)
+
+    let insertConfig="Scenario.name = " + ifile + "\n"
+
+    for(let n=0; n<(ConfigRes[numConfigs[i]].length); n++){
+      ky=Object.keys(ConfigRes[numConfigs[i]][n])
+      insertConfig=insertConfig + ky + " = " + ConfigRes[numConfigs[i]][n][ky] + "\n"
+    }
+
+    console.log(insertConfig)
+
+
+    fs.writeFile('./the-one/'+ifile+'.txt', insertConfig, function (err) {
+      if (err) throw err;
+      console.log('File is created successfully.');
+    });
+
+  }
+
+  res.json(numConfigs.length)
+
+
+
+
+})
+
+
+});
+
+app.post('/CalcNsim', (req, res)=>{
+  let fus;
+  let zer
+  let a=0;
+  console.log('here')
+  console.log(req.body)
+  console.log('here')
+  console.log('hiri')
+
+  let x=[]
+  let y=[]
+
+  const GenerateConfig = async () => {
+  let aux=[]
+  const ConfigRes = await bTCombinations(0,0,req.body,x,y, aux)
+  return ConfigRes;
+}
+
+
+GenerateConfig().then((ConfigRes)=>{
+  console.log("----------------------------")
+  //console.log(ConfigRes)
+  let pos=1
+
+  if (ConfigRes.length>4){
+    pos=Math.floor(ConfigRes.length/4)
+  }
+  console.log(pos)
+  //pos es la suma
+  let numConfigs=[]
+  for (let x=0; x<ConfigRes.length; x+=pos){
+    numConfigs.push(x)
+  }
+  console.log(numConfigs)
+  res.json(numConfigs.length)
+})
+
+});
+
 
 
 
