@@ -39,8 +39,8 @@ select
 	border-radius: 5px;
 }
 
-body {
-   transform: scale(0.8);
+form {
+   transform: scale(0.75);
    transform-origin: 0 0;
 }
 

@@ -10,6 +10,7 @@ const rootComponent  = {
     Dselected: 1,
     Rselected: 1,
     Nsim: {},
+    dataG: null,
     Config: {
       "Scenario.endTime": ["Simulation Time", "36000", "43200", "54000", "43200 seconds", "0"],
       "btInterface.transmitRange": ["Transmit range", "10", "50", "100", "10 meters", "0"],
@@ -157,7 +158,64 @@ const rootComponent  = {
       .then(response => response.json())
       .then(aJson => {
 
-        this.dataReport=JSON.stringify(aJson);
+
+        aJson.pop()
+
+        this.dataReport=aJson
+
+        console.log(aJson);
+
+        console.log(aJson.length)
+        let data = {
+            labels: null,
+            datasets: [
+                {
+
+                },
+
+            ]
+        }
+        let time=0;
+        for (let i=0; i<aJson.length; i++) {
+          console.log(aJson[i])
+          let resProb=[]
+          let resTime=[]
+          resProb[i]=aJson[i].map(function(point, index) {
+                if (index==0){
+                  return 0
+                } else if(point!=""){
+                  if (point<0){
+                    return 0
+                  }
+                  return point[3]*100
+                } else{
+                  return
+                }
+              })
+
+          resTime[i]=aJson[i].map(function(point, index) {
+                    if (index==0){
+                      return "0"
+                    } else if(point!=""){
+                      return point[0]
+                    } else{
+                      return
+                    }
+
+                  })
+          if(aJson[i].length>time){
+            time=aJson[i].length
+            data.labels=resTime[i]
+          }
+
+          data.datasets[i]=  {
+                name: aJson[i][0],
+                chartType: "line",
+                values: resProb[i]
+            }
+        }
+
+        this.dataG=data
       })
       console.log(String(this.Nsim.total))
     },
@@ -268,11 +326,49 @@ const rootComponent  = {
     },
 
   },
+   watch: {
+     dataG: function(val){
+       let palette=["#FFADAD","#FFD6A5", "#FDFFB6", "#CAFFBF", "#9BF6FF", "#A0C4FF", "#BDB2FF", "#FFC6FF"]
+       let oppo=Math.floor(palette.length/val.datasets.length)
+       let colorpal=[]
+       for (let i=0; i<val.datasets.length; i+=oppo){
+         colorpal[i]=palette[i]
+       }
+
+
+       let chart = new frappe.Chart("#chart", {  // or a DOM element,
+            // new Chart() in case of ES6 module with above usage
+           title: "Delivery %",
+           data: val,
+           type: 'line', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
+           height: 800,
+           truncateLegends: true,
+           colors: colorpal,
+           axisOptions: {
+             xAxisMode: "span",
+             yAxisMode: "span",
+             xIsSeries: true
+           },
+           tooltipOptions: {
+             formatTooltipX: (d) => (parseFloat(d).toFixed(2) + "").toUpperCase() + " seconds",
+             formatTooltipY: (d) => parseFloat(d).toFixed(2) + " delivered/created"
+           },
+           lineOptions: {
+             spline: false,
+             hideDots: 1,
+             heatline: 0
+           }
+         })
+
+
+     }
+
+   },
 
 
   template: `
   <h1> BULK</h1>
-
+   <div id="chart"></div>
 
 
 

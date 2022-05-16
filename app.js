@@ -144,7 +144,7 @@ app.post("/Start", (req,res)=> {
   console.log(req.body)
   console.log('here')
   let count=0;
-  let fus;
+  let fus=[]
   let a=0;
 
   console.log('hiri')
@@ -186,21 +186,26 @@ app.post("/Start", (req,res)=> {
 
         ExTheOne(ifile+'.txt', ifile).then(irep=> {
           a=a+1
-          let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_MessageStatsReport.txt";
-          let contactTimeReports = "/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_ContactTimesReport.txt";
+          let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_MessageDeliveryReport.txt";
+          let lines=fs.readFileSync(messageStats, "utf8").toString().split("\n")
+          let values = lines.map(function(line) {
+              return line.split(" ")
+              })
+
+          values.pop()
           if (a >= req.body.length) {
-            fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
-            fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+            values[0]=irep+"_"+req.body[i].Grout
+            fus.splice(i, 0, values)
             res.json(fus);
             console.log("HOGRIDEEER")
           } else {
             if (a == 1) {
-              fus=messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
-              fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+              values[0]=irep+"_"+req.body[i].Grout
+              fus.splice(i, 0, values)
             }
             else {
-              fus=fus+'\n'+'\n'+messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
-              fus = fus + '\n' + '\n' +contactTimeReports+'\n'+fs.readFileSync(contactTimeReports, "utf8")
+              values[0]=irep+"_"+req.body[i].Grout
+              fus.splice(i, 0, values)
             }
           }
 
@@ -355,7 +360,7 @@ app.post("/GenConfig", (req,res)=> {
 
 app.post('/downloadRep',(req, res)=>{
   console.log(req.body.number)
-  let config=fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+ req.body.number+"_MessageStatsReport.txt", "utf8")
+  let config=fs.readFileSync("/home/jus/Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+ req.body.number+"_MessageDeliveryReport.txt", "utf8")
   res.json(config)
 });
 
@@ -388,9 +393,8 @@ app.post('/downloadConfig', (req, res)=>{
 
 
 app.post("/StartB", (req,res)=> {
-  let fus;
+
   let zer
-  let a=0;
   console.log('here')
   console.log(req.body)
   console.log('here')
@@ -407,6 +411,10 @@ app.post("/StartB", (req,res)=> {
 
 
 GenerateConfig().then((ConfigRes)=>{
+  let fus=[];
+  let rProt=[];
+  let a=0;
+
   console.log("----------------------------")
   //console.log(ConfigRes)
   let pos=1
@@ -419,6 +427,7 @@ GenerateConfig().then((ConfigRes)=>{
   let numConfigs=[]
   for (let x=0; x<ConfigRes.length; x+=pos){
     numConfigs.push(x)
+    rProt.push(0)
   }
   console.log(numConfigs)
 
@@ -428,9 +437,12 @@ GenerateConfig().then((ConfigRes)=>{
   console.log(ifile)
 
     let insertConfig="Scenario.name = " + ifile + "\n"
-
+    rProt[i]="EpidemicRouter"
     for(let n=0; n<(ConfigRes[numConfigs[i]].length); n++){
       ky=Object.keys(ConfigRes[numConfigs[i]][n])
+      if (ky=="Group.router"){
+          rProt[i]=ConfigRes[numConfigs[i]][n][ky]
+      }
       insertConfig=insertConfig + ky + " = " + ConfigRes[numConfigs[i]][n][ky] + "\n"
     }
 
@@ -446,19 +458,28 @@ GenerateConfig().then((ConfigRes)=>{
 
           ExTheOne(ifile+'.txt', ifile).then(irep=> {
             a=a+1
-            let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_MessageStatsReport.txt";
-
+            let messageStats = "/home/jus//Desktop/TFG/wha/A/the-one-frontend/the-one/reports/"+irep+"_MessageDeliveryReport.txt";
+            let lines=fs.readFileSync(messageStats, "utf8").toString().split("\n")
+            let values = lines.map(function(line) {
+                return line.split(" ")
+                })
+            values.pop()
             if (a >= numConfigs.length) {
-              fus = fus + '\n' + '\n' +messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+
+              values[0]=irep+"_"+rProt[i]
+              fus.splice(i, 0, values)
+              fus.push(values)
 
               res.json(fus);
               console.log("HOGRIDEEER")
             } else {
               if (a == 1) {
-                fus=messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+                values[0]=irep+"_"+rProt[i]
+                fus.splice(i, 0, values)
               }
               else {
-                fus=fus+'\n'+'\n'+messageStats+'\n'+fs.readFileSync(messageStats, "utf8")
+                values[0]=irep+"_"+rProt[i]
+                fus.splice(i, 0, values)
 
               }
             }
@@ -589,4 +610,4 @@ GenerateConfig().then((ConfigRes)=>{
 //Begin routing
 
 //creating an HTTP server.
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(port, () => console.log(`The One Front-End app listening on port ${port}!`))

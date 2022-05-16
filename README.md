@@ -66,9 +66,9 @@ Script in charge of executng the-one sumulator
 
 08/05/2022 -> Bulk backend finished, the combinations made with a backtracking function bTCombinations(), that goes over a tree, generating all the combinations, only /4 Combinations are selected, the file config is generated, and then launched by the-one, the results are correctly received in the front.
 
-12/05/2022 -> Bulk pre...
+12/05/2022 -> Bulk pop pre-menu added and implemented, also sample creation bug fixed.
 
-12/05/2022 ->
+12/05/2022 -> Download Config and Report at the end solved.
 
 ## Done Checklist
 
@@ -115,3 +115,8 @@ Script in charge of executng the-one sumulator
 - [ ] DB storage
 - [ ] Add wait time options
 - [ ] Pass minutes to hours in grop message ttl
+
+Poner el del más pequeño de gráfica (total no cambia)
+Quitar el {{report}}
+Actualizar el readme
+https://coolors.co/ffadad-ffd6a5-fdffb6-caffbf-9bf6ff-a0c4ff-bdb2ff-ffc6ff-fffffc
