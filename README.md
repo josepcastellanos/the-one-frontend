@@ -92,7 +92,7 @@ Script in charge of executng the-one sumulator
 - [x]  Trace simulations with correct params
 - [x]  Decide final simulation form
 - [x]  Download reports and config file
-- [ ]  Formating reports(later on)
+- [x]  Formating reports(later on)
 - [x]  Popup menu with cancel, download or start simulation
 - [x]  Add routing algorithm to bulk and parameter simulation
 - [x]  Bulk simulation frontend
