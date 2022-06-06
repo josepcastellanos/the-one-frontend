@@ -12,10 +12,10 @@ const rootComponent  = {
     Nsim: {},
     dataG: null,
     Config: {
+      "Group.router": ["Group routing algorithm", "ProphetRouter", "EpidemicRouter", "SprayAndWaitRouter", "Epidemic", "0"],
       "Scenario.endTime": ["Simulation Time", "36000", "43200", "54000", "43200 seconds", "0"],
       "btInterface.transmitRange": ["Transmit range", "10", "50", "100", "10 meters", "0"],
       "btInterface.transmitSpeed": ["Transmit speed", "125k", "250k", "650k", "2 Mbps / 250 kBps", "0"],
-      "Group.router": ["Group routing algorithm", "ProphetRouter", "EpidemicRouter", "SprayAndWaitRouter", "Epidemic", "0"],
       "Scenario.nrofHostGroups": ["Number of Groups", "1", "2", "3", "1 Group", "0"],
       "Group1.nrofHosts": ["Number of Hosts Group 1", "60", "80", "100", "60 Hosts", "1"],
       "Group1.routeFile": ["Range Group 1", "data/tram3.wkt", "data/tram4.wkt", "data/tram10.wkt", "Tram 3", "1"],
@@ -24,7 +24,7 @@ const rootComponent  = {
       "Group3.nrofHosts": ["Number of Hosts Group 3", "60", "80", "100", "60 Hosts", "3"],
       "Group3.routeFile": ["Range Group 3", "data/tram3.wkt", "data/tram4.wkt", "data/tram10.wkt", "Tram 3", "3"],
       "Group.bufferSize": ["Group buffer size", "2", "5", "10", "5 M", "0"],
-      "Group.waitTime": ["Group wait time", "0, 120", "0, 120", "0, 120", "0 seconds to 120 seconds", "0"],
+      /**"Group.waitTime": ["Group wait time", "0, 120", "0, 120", "0, 120", "0 seconds to 120 seconds", "0"],**/
       "Group.msgTtl": ["Group message TTL", "120", "300", "420", "300 minutes", "0"],
       "Group.speed": ["Group walking speed", "0.2, 1.0", "0.5, 1.5", "1.5, 2.5", "0.5 to 1.5 m/sec", "0"],
       "MovementModel.worldSize": ["World size", "4500, 3400", "5625, 4250", "9000, 6800", "4500 x 3400 meters", "0"],
@@ -43,6 +43,13 @@ const rootComponent  = {
 }
   },
   methods: {
+    Charging: function(){
+      if (this.pressed==true && this.dataReport=="Charging"){
+        return true;
+      } else {
+        return false
+      }
+    },
     Confirm: function(){
       this.Premenu=true;
     },
@@ -132,6 +139,9 @@ const rootComponent  = {
     StartB: function(){
       this.pressed=true;
       this.Premenu=false;
+      if (this.Csim.length==0) {
+        this.Csim.push({"Scenario.endTime": "43200"})
+      }
       const b=JSON.parse(JSON.stringify(this.Csim))
       fetch('/CalcNsim', {
         method: "POST",
@@ -175,7 +185,7 @@ const rootComponent  = {
 
             ]
         }
-        let time=0;
+        let time=99999999999999999999999999;
         for (let i=0; i<aJson.length; i++) {
           console.log(aJson[i])
           let resProb=[]
@@ -203,7 +213,7 @@ const rootComponent  = {
                     }
 
                   })
-          if(aJson[i].length>time){
+          if(aJson[i].length<time){
             time=aJson[i].length
             data.labels=resTime[i]
           }
@@ -341,7 +351,7 @@ const rootComponent  = {
            title: "Delivery %",
            data: val,
            type: 'line', // or 'bar', 'line', 'scatter', 'pie', 'percentage'
-           height: 800,
+           height: 700,
            truncateLegends: true,
            colors: colorpal,
            axisOptions: {
@@ -367,12 +377,12 @@ const rootComponent  = {
 
 
   template: `
-  <h1> BULK</h1>
+  <h1 v-if="!pressed"> Select simulation values</h1>
    <div id="chart"></div>
 
 
 
-  <reports v-if="pressed" v-bind:Rep="dataReport"> </reports>
+  <reports v-if="Charging()" v-bind:Rep="dataReport"> </reports>
 
   <form v-if="!pressed" v-on:submit.prevent="Confirm">
   <table class="rtable" border="1">
@@ -385,13 +395,13 @@ const rootComponent  = {
   </tr>
   <tr v-for="(sale, i) in Config" >
      <th scope="row"  v-if="sale[5]<=nGroups">{{sale[0]}}</th>
-     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input class="cbox" :disbaled="dis" @change="chData(i, sale[1])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[1]}}">({{sale[1]}})</label></td>
-     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input class="cbox" :disabled="dis" @change="chData(i, sale[2])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[2]}}">({{sale[2]}})</label></td>
-     <td class="checkboxes" v-if="sale[5]<=nGroups"><label><input class="cbox" :disabled="dis" @change="chData(i, sale[3])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[3]}}">({{sale[3]}})</label></td>
+     <td class="checkboxes" v-if="sale[5]<=nGroups"><label class="vals"><input class="cbox" :disbaled="dis" @change="chData(i, sale[1])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[1]}}">({{sale[1]}})</label></td>
+     <td class="checkboxes" v-if="sale[5]<=nGroups"><label class="vals"><input class="cbox" :disabled="dis" @change="chData(i, sale[2])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[2]}}">({{sale[2]}})</label></td>
+     <td class="checkboxes" v-if="sale[5]<=nGroups"><label class="vals"><input class="cbox" :disabled="dis" @change="chData(i, sale[3])" v-if="sale[5]<=nGroups" type="checkbox" value="{{sale[3]}}">({{sale[3]}})</label></td>
      <td v-if="sale[5]<=nGroups">{{sale[4]}}</td>
   </tr>
   </table>
-  <p><input type="submit" value="StartB!" name="b1"></p>
+  <p><input class="subm" type="submit" value="Start" name="b1"></p>
   </form>
 
   <br>
@@ -401,7 +411,7 @@ const rootComponent  = {
         {{ index+1}}
      </option>
  </select>
-  <input type="submit" value="Descarregar configuració">
+  <input class="dr" type="submit" value="Download configuration">
   </form>
 
   <form v-if="dataReport!='Charging'" ref="form" v-on:submit.prevent="dReport()">
@@ -410,7 +420,7 @@ const rootComponent  = {
         {{ index+1}}
      </option>
  </select>
-  <input type="submit" value="Descarregar report">
+  <input class="dr" type="submit" value="Download report">
   </form>
 
   <div id="popup" v-if="Premenu==true">
@@ -427,7 +437,11 @@ const reports  = {
 
 
   template: `
-  <small> {{Rep}} </small>
+  <div class="loader">
+    <div class="inner one"></div>
+    <div class="inner two"></div>
+    <div class="inner three"></div>
+  </div>
    `
 
 };
