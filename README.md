@@ -70,6 +70,8 @@ Script in charge of executng the-one sumulator
 
 12/05/2022 -> Download Config and Report at the end solved.
 
+06/06/2022 -> Css format.
+
 ## Done Checklist
 
 - [x]  Capture reports, for one simulation (at first)(Listen changes in one/reports/) -> DONE using watchfile (fs library) and the node-module log-timestamps
