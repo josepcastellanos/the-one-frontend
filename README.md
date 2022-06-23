@@ -1,4 +1,4 @@
-# the-one-frontend
+# The One frontend
 
 ## Installation
 A front-end for the-one simulator created using Vue.js (front-end) and express.js (Middle-ware).
