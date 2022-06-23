@@ -23,7 +23,7 @@ const rootComponent  = {
       "Group2.routeFile": ["Range Group 2", "data/tram3.wkt", "data/tram4.wkt", "data/tram10.wkt", "Tram 3", "2"],
       "Group3.nrofHosts": ["Number of Hosts Group 3", "60", "80", "100", "60 Hosts", "3"],
       "Group3.routeFile": ["Range Group 3", "data/tram3.wkt", "data/tram4.wkt", "data/tram10.wkt", "Tram 3", "3"],
-      "Group.bufferSize": ["Group buffer size", "2", "5", "10", "5 M", "0"],
+      "Group.bufferSize": ["Group buffer size", "2M", "5M", "10M", "5 M", "0"],
       /**"Group.waitTime": ["Group wait time", "0, 120", "0, 120", "0, 120", "0 seconds to 120 seconds", "0"],**/
       "Group.msgTtl": ["Group message TTL", "120", "300", "420", "300 minutes", "0"],
       "Group.speed": ["Group walking speed", "0.2, 1.0", "0.5, 1.5", "1.5, 2.5", "0.5 to 1.5 m/sec", "0"],
