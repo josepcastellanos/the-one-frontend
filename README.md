@@ -15,7 +15,7 @@ Also, install the necessaries node modules with npm install (express, path, util
 
 ## Front End
 
-Located in 'the-one-frontend/js/components.js' .
+Located in 'the-one-frontend/js/' .
 
 
 
