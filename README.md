@@ -33,9 +33,9 @@ Script in charge of executing the-one simulator.
 
 To activate the server mode, which means to remove all limitations regarding the execution of bulk simulations, the following few changes are necessary:
 
-1. /public/js/bulk.js -> set the "maxOpt" variable to the maximum possible variables to select (maximum default is 52).
+1. _/public/js/bulk.js_ -> set the "maxOpt" variable to the maximum possible variables to select (maximum default is 52).
 
-2. /app.js -> comment the 422-425 lines (code that divides per 4 the "ConfigRes.length"). Also, for download configurations, comment the same part at the "GenBulkConfig", lines 535-527.
+2. _/app.js_ -> comment the 422-425 lines (code that divides per 4 the "ConfigRes.length"). Also, for download configurations, comment the same part at the "GenBulkConfig", lines 535-527.
 
 
 ## Done
