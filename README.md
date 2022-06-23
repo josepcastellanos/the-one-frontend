@@ -74,7 +74,7 @@ To activate the server mode, which means to remove all limitations regarding the
 
 04/05/2022 -> Now it's possible to select the routing algorithm for each simulation, in both parameters and bulk simulation mode.
 
-08/05/2022 -> Bulk middle-ware finished, the combinations made with a backtracking function bTCombinations(), that goes over a tree, generating all the combinations, only /4 Combinations are selected, the configuration file is generated, and then launched by the-one, the results are correctly received in the front.
+08/05/2022 -> Bulk middle-ware finished, the combinations are made with a backtracking function bTCombinations(), that goes over a tree, generating all the combinations, only /4 Combinations are selected, the configuration file is generated, and then launched by the-one, the results are correctly received in the front.
 
 12/05/2022 -> Bulk pop pre-menu added and implemented, also sample creation bug fixed.
 
